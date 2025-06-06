@@ -20,7 +20,7 @@ export default function Footer() {
             alt="NCLM Logo"
             width={150}
             height={150}
-            className="object-contain sm:w-[120px] sm:h-[120px] md:w-[150px] md:h-[150px]"
+            className="h-auto w-[100px] sm:w-[120px] md:w-[150px] object-contain"
           />
         </div>
 

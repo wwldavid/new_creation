@@ -37,6 +37,7 @@ export default function Slider() {
                 src={src}
                 alt={`Banner ${index + 1}`}
                 fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 768px, 895px"
                 className="object-cover"
                 priority={index === 0}
               />
