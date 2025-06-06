@@ -1,6 +1,7 @@
 // src/app/layout.jsx
 import "./globals.css";
-import Navbar from "../components/Navbar"; // 👈 引入路径注意
+import Navbar from "../components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "New Creation Life Ministries",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
       <body>
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

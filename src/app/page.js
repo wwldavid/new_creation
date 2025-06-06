@@ -1,3 +1,9 @@
+import Slider from "@/components/Slider";
+
 export default function Home() {
-  return <h1 className="text-4xl font-bold text-red-600"></h1>;
+  return (
+    <div className="mt-32 mb-60">
+      <Slider />
+    </div>
+  );
 }
