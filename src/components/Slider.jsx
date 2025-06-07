@@ -1,8 +1,8 @@
 "use client";
 
 import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/autoplay";
+// import "swiper/css/effect-fade";
+// import "swiper/css/autoplay";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
@@ -23,12 +23,13 @@ export default function Slider() {
   return (
     <div className="mx-auto max-w-[895px] w-full">
       <Swiper
-        modules={[Autoplay, EffectFade, Navigation, Pagination]}
-        effect="fade"
+        modules={[Autoplay, Navigation, Pagination]}
+        // effect="fade"
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         loop={true}
         navigation
         pagination={{ clickable: true }}
+        speed={4000}
       >
         {banners.map((src, index) => (
           <SwiperSlide key={index}>

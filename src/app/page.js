@@ -1,9 +1,13 @@
+import CrossWindow from "@/components/CrossWindow";
 import Slider from "@/components/Slider";
 
 export default function Home() {
   return (
-    <div className="mt-32 mb-60">
-      <Slider />
+    <div>
+      <div className="flex items-center justify-center min-h-screen ">
+        <CrossWindow />
+      </div>
+      <div className="pt-32 pb-32 bg-[#f8f4e6]"></div>
     </div>
   );
 }
