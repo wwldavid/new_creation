@@ -34,7 +34,7 @@ export default function FaithDeclare() {
             transition={{ delay: index * 0.6, duration: 0.8 }}
             className={`${
               index === 0
-                ? "text-2xl font-bold tracking-wide underline mb-4"
+                ? "text-2xl font-bold tracking-wide text-center mb-4"
                 : "text-base leading-relaxed"
             }`}
           >

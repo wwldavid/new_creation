@@ -1,11 +1,19 @@
+"use client";
 import React from "react";
-import NewsTicker from "./NewsTicker";
+
 import FaithDeclare from "./FaithDeclare";
 import Slider from "./Slider"; // ✅ 导入轮播图组件
 
 export default function CrossWindow() {
   return (
-    <div className="flex items-end bg-[#f8f4e6] w-full min-h-screen p-12 gap-20">
+    <div className="relative flex flex-col lg:flex-row items-end bg-[#f8f4e6] w-full min-h-screen p-12 gap-20">
+      <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-50">
+        <h1 className="text-2xl md:text-4xl font-bold text-[#01652e] drop-shadow-lg italic">
+          Welcome to New Creation Life Ministries, <br /> Encounter His
+          presence, Be renewed in spirit.
+        </h1>
+      </div>
+
       {/* 圆形部分 */}
       <div className="relative">
         {/* 背景轮播图 */}
@@ -37,9 +45,10 @@ export default function CrossWindow() {
           {/* 四个格子 */}
           <div className="bg-white" style={{ gridRow: 1, gridColumn: 1 }} />
           <div className="bg-white" style={{ gridRow: 1, gridColumn: 3 }} />
-          <div className="bg-transparent" style={{ gridRow: 3, gridColumn: 1 }}>
-            <NewsTicker />
-          </div>
+          <div
+            className="bg-transparent"
+            style={{ gridRow: 3, gridColumn: 1 }}
+          ></div>
           <div
             className="bg-transparent"
             style={{ gridRow: 3, gridColumn: 3 }}
@@ -58,7 +67,7 @@ export default function CrossWindow() {
       </div>
 
       {/* 右侧宣信组件 */}
-      <div>
+      <div className="flex justify-center lg:justify-start">
         <FaithDeclare />
       </div>
     </div>

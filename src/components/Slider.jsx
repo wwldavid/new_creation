@@ -29,7 +29,7 @@ export default function Slider() {
         loop={true}
         navigation
         pagination={{ clickable: true }}
-        speed={4000}
+        speed={5000}
       >
         {banners.map((src, index) => (
           <SwiperSlide key={index}>
