@@ -1,3 +1,5 @@
+import SermonVideoPlayer from "@/components/SermonVideoPlayer";
+
 export default function Sermons() {
-  return <div>{/* 暂无内容 */}</div>;
+  return <SermonVideoPlayer />;
 }
