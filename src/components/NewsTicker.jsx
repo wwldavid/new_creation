@@ -17,7 +17,7 @@ export default function NewsTicker() {
     "“耶稣说：人活着，不是单靠食物，而是靠神口里所出的一切话。” —— 马太福音 4:4",
     "“耶和华是我的牧者，我必不至缺乏。他使我躺卧在青草地上，领我在可安歇的水边。他使我的灵魂苏醒，为自己的名引导我走义路。我虽然行过死荫的幽谷，也不怕遭害，因为你与我同在；你的杖、你的竿都安慰我。” —— 诗篇 23:1-4",
     "“惟有耶和华是可靠的。他的慈爱永远长存，他的信实直到万代。” —— 诗篇 100:5",
-    "“神是我们的避难所和力量，是我们随时的帮助。所以地虽改变，山虽摇动到海心，也不害怕。水中的喧哗泛滥，山因海水涨溢而颤抖。大河的蒲草在其中欢呼，黎巴嫩的山过去，锡安的山却坚立，因为耶和华在其中，这城必不动摇。” —— 诗篇 46:1-6",
+    "“神是我们的避难所和力量，是我们随时的帮助。所以地虽改变，山虽摇动到海心，也不害怕。大河的蒲草在其中欢呼，黎巴嫩的山过去，锡安的山却坚立，因为耶和华在其中，这城必不动摇。” —— 诗篇 46:1-6",
     "“我儿，不可轻看耶和华的管教；受他的责备，也不可厌烦。因为耶和华所爱的，他必责备；正如父亲责备所爱的儿子。你要专心仰赖耶和华，不可倚靠自己的聪明；在你一切所行的事上都要认定他，他必指引你的路。” —— 箴言 3:5-6,11-12",
     "“他的智慧无法测度。他赐能力给疲乏的人，赐力量给软弱的人。少年人也要疲乏困倦，强壮的也必全然跌倒；但那等候耶和华的，必重新得力；他们必如鹰展翅上腾，奔跑却不困倦，行走却不疲乏。” —— 以赛亚书 40:28-31",
     "“你要以耶和华为乐。他就将你心里所求的赐给你。” —— 诗篇 37:4",
@@ -67,7 +67,7 @@ export default function NewsTicker() {
   return (
     <div>
       <div
-        className="w-60 h-60  shadow-md overflow-hidden relative ml-14 mt-5 bg-cover bg-center bg-no-repeat "
+        className="w-60 h-60  shadow-md overflow-hidden relative ml-14 mt-4 bg-cover bg-center bg-no-repeat bg-[#e0ebaf]/50"
         style={{ backgroundImage: "url('/frame.png')" }}
       >
         <div className=" text-center py-5">
@@ -91,7 +91,7 @@ export default function NewsTicker() {
         ))}
       </div>
       <div
-        className="w-60 h-60  shadow-md overflow-hidden relative ml-14 mt-5 bg-cover bg-center bg-no-repeat "
+        className="w-60 h-60  shadow-md overflow-hidden relative ml-14 mt-4 bg-cover bg-center bg-no-repeat bg-[#e6b422]/30"
         style={{ backgroundImage: "url('/frame.png')" }}
       >
         <div className=" text-center py-5">
@@ -113,7 +113,7 @@ export default function NewsTicker() {
         ))}
       </div>
       <div
-        className="w-60 h-60  shadow-md overflow-hidden relative ml-14 mt-5 bg-cover bg-center bg-no-repeat "
+        className="w-60 h-60  shadow-md overflow-hidden relative ml-14 mt-4 bg-cover bg-center bg-no-repeat bg-[#bce2e8]/30"
         style={{ backgroundImage: "url('/frame.png')" }}
       >
         <div className=" text-center ">
