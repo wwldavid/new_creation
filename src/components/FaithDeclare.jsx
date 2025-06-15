@@ -21,11 +21,8 @@ const lines = [
 
 export default function FaithDeclare() {
   return (
-    <div
-      className={`w-9/12 h-4/6 bg-cover bg-center rounded-lg overflow-y-auto p-6 ${ebGaramond.className}`}
-      style={{ backgroundImage: "url('/faith_bg.jpg')" }}
-    >
-      <div className="text-white space-y-0">
+    <div className={`w-full h-auto  p-2 ${ebGaramond.className}`}>
+      <div className="text-[#01652e] space-y-4 ">
         {lines.map((line, index) => (
           <motion.p
             key={index}
@@ -34,8 +31,8 @@ export default function FaithDeclare() {
             transition={{ delay: index * 0.6, duration: 0.8 }}
             className={`${
               index === 0
-                ? "text-2xl font-bold tracking-wide text-center mb-4"
-                : "text-base leading-relaxed"
+                ? "tect-2xl md:text-3xl font-bold tracking-wide text-center mb-4"
+                : "text-sm sm:text-base md:text-lg lg:text-xl"
             }`}
           >
             {line}

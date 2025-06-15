@@ -1,5 +1,4 @@
 import CrossWindow from "@/components/CrossWindow";
-import Slider from "@/components/Slider";
 
 export default function Home() {
   return (
