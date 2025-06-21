@@ -30,12 +30,19 @@ export default function Navbar() {
       <div className="max-w-[1410px] h-full mx-auto flex justify-between items-center px-6">
         {/* Logo */}
         <div className="w-[80px] h-[103px]">
-          <Image
+          {/* <Image
             src="/seed.png"
             alt="New Creation Logo"
             width={103}
             height={80}
             className="w-[80px] h-[103px] object-contain"
+          /> */}
+          <Image
+            src="/seed_bg_w.png"
+            alt="New Creation Logo"
+            width={103}
+            height={103}
+            className="w-[103px] h-[103px] object-contain"
           />
         </div>
 

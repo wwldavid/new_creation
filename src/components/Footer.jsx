@@ -15,12 +15,19 @@ export default function Footer() {
       <div className="mx-auto max-w-[1410px] w-full px-4 text-white">
         {/* Logo */}
         <div className="mb-6">
-          <Image
+          {/* <Image
             src="/seed.png"
             alt="New Creation Logo"
             width={103}
             height={80}
             className="w-[80px] h-[103px] object-contain"
+          /> */}
+          <Image
+            src="/seed_bg_w.png"
+            alt="New Creation Logo"
+            width={103}
+            height={103}
+            className="w-[103px] h-[103px] object-contain"
           />
         </div>
 
