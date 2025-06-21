@@ -16,11 +16,11 @@ export default function Footer() {
         {/* Logo */}
         <div className="mb-6">
           <Image
-            src="/logo_vertical.png"
-            alt="NCLM Logo"
-            width={150}
-            height={150}
-            className="h-auto w-[100px] sm:w-[120px] md:w-[150px] object-contain"
+            src="/seed.png"
+            alt="New Creation Logo"
+            width={103}
+            height={80}
+            className="w-[80px] h-[103px] object-contain"
           />
         </div>
 
