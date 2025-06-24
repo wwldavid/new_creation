@@ -93,7 +93,7 @@ export default function DonatePage() {
               <span>支票奉献：</span>
               <br />
               <span className="block indent-[2em] text-[#495859]">
-                请开给 New-Creation's Life Ministries, NCLM
+                请开给 New-Creation&apos;s Life Ministries, NCLM
               </span>
             </p>
             <p>
