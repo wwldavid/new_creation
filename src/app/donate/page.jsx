@@ -1,3 +1,9 @@
+import DonatePage from "@/components/Donatepage";
+
 export default function Donate() {
-  return <div>{/* 暂无内容 */}</div>;
+  return (
+    <main className="py-10">
+      <DonatePage />
+    </main>
+  );
 }
