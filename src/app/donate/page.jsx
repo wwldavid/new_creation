@@ -1,4 +1,4 @@
-import DonatePage from "@/components/Donatepage";
+import DonatePage from "@/components/DonatePage";
 
 export default function Donate() {
   return (
