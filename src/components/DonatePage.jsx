@@ -39,7 +39,7 @@ export default function DonatePage() {
   return (
     <div className="max-w-[1141px] h-[815px] mx-auto flex gap-6 flex-col md:flex-row justify-center">
       {/* 左侧 */}
-      <div className="md:w-[347px] h-[730px] relative bg-black rounded-lg">
+      <div className="md:w-[347px] h-[730px] relative bg-black rounded-s-xl overflow-hidden">
         {/* 背景图 */}
         <AnimatePresence mode="sync">
           <motion.div
