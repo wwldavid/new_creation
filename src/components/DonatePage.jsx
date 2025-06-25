@@ -39,12 +39,12 @@ export default function DonatePage() {
   return (
     <div className="max-w-[1141px] h-[815px] mx-auto flex gap-6 flex-col md:flex-row justify-center">
       {/* 左侧 */}
-      <div className="md:w-[347px] h-[730px] relative bg-black rounded-s-xl overflow-hidden">
+      <div className="md:w-[347px] h-[730px] relative bg-black rounded-lg overflow-hidden ">
         {/* 背景图 */}
         <AnimatePresence mode="sync">
           <motion.div
             key={idx}
-            className="absolute inset-0 bg-cover bg-center "
+            className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url(/donate/bg${idx + 1}.jpg)` }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
