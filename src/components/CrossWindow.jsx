@@ -7,9 +7,9 @@ import NewsTicker from "./NewsTicker";
 
 export default function CrossWindow() {
   return (
-    <div className="relative flex flex-col bg-[#f8f4e6] w-full min-h-screen p-12 gap-40">
+    <div className="relative flex flex-col bg-[#f8f4e6]  w-full min-h-screen p-12 gap-40">
       <div className="absolute top-16 left-1/2 transform -translate-x-1/2 z-50">
-        <h1 className="text-2xl md:text-4xl font-bold text-[#01652e] drop-shadow-lg italic">
+        <h1 className="text-2xl md:text-4xl font-bold text-[#647a5c] drop-shadow-lg italic">
           Welcome to New Creation Life Ministries, <br /> Encounter His
           presence, Be renewed in spirit.
         </h1>
@@ -45,8 +45,14 @@ export default function CrossWindow() {
             }}
           >
             {/* 四个格子 */}
-            <div className="bg-white" style={{ gridRow: 1, gridColumn: 1 }} />
-            <div className="bg-white" style={{ gridRow: 1, gridColumn: 3 }} />
+            <div
+              className="bg-[#c4d3d5]"
+              style={{ gridRow: 1, gridColumn: 1 }}
+            />
+            <div
+              className="bg-[#c4d3d5]"
+              style={{ gridRow: 1, gridColumn: 3 }}
+            />
             <div
               className="bg-transparent"
               style={{ gridRow: 3, gridColumn: 1 }}
@@ -62,7 +68,7 @@ export default function CrossWindow() {
               style={{ gridRow: 2, gridColumn: "1 / 4" }}
             />
             <div
-              className="bg-[#f8f4e6]"
+              className="bg-[#f8f4e6]/50"
               style={{ gridRow: "1 / 4", gridColumn: 2 }}
             />
           </div>

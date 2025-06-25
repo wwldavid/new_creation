@@ -79,11 +79,11 @@ export default function NewsTicker() {
             className={`absolute inset-0 p-4 mt-10 transition-opacity duration-1000 ease-in-out
             ${current === index ? "opacity-100" : "opacity-0"}`}
           >
-            <h2 className="text-lg font-semibold text-[#1e3a5f] mb-2 text-center">
+            <h2 className="text-lg font-semibold text-[#495859] mb-2 text-center">
               {item.title}
             </h2>
             {item.details.map((line, i) => (
-              <p key={i} className="text-sm text-gray-700 leading-relaxed">
+              <p key={i} className="text-sm text-[#495859] leading-relaxed">
                 {line}
               </p>
             ))}
@@ -95,7 +95,9 @@ export default function NewsTicker() {
         style={{ backgroundImage: "url('/frame.png')" }}
       >
         <div className=" text-center py-5">
-          <h2 className="text-md font-bold tracking-wide">圣经箴言</h2>
+          <h2 className="text-md font-bold tracking-wide text-[#495859]">
+            圣经箴言
+          </h2>
         </div>
         {bible.map((verse, idx) => (
           <div
@@ -106,7 +108,7 @@ export default function NewsTicker() {
               ${bibleIndex === idx ? "opacity-100" : "opacity-0"}
             `}
           >
-            <p className="text-sm text-gray-800 leading-relaxed text-center">
+            <p className="text-sm text-gray-800 leading-relaxed text-center text-[#495859]">
               {verse}
             </p>
           </div>

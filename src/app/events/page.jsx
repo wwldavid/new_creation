@@ -80,7 +80,7 @@ const CampComponent = () => {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#ece1d1" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "#f8f4e6" }}>
       {/* 标题部分 */}
       <div className="text-center py-12 px-4">
         <h1
