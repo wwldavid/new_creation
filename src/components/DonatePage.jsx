@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const scriptures = [
   {
@@ -38,12 +39,19 @@ export default function DonatePage() {
   return (
     <div className="max-w-[1141px] h-[815px] mx-auto flex gap-6 flex-col md:flex-row justify-center">
       {/* 左侧 */}
-      <div className="md:w-[347px] h-[730px] relative bg-lime-100 rounded-lg">
+      <div className="md:w-[347px] h-[730px] relative bg-black rounded-lg">
         {/* 背景图 */}
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
-          style={{ backgroundImage: `url(/donate/bg${idx + 1}.jpg)` }}
-        />
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={idx}
+            className="absolute inset-0 bg-cover bg-center "
+            style={{ backgroundImage: `url(/donate/bg${idx + 1}.jpg)` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 5 }}
+          />
+        </AnimatePresence>
         {/* 内容层 */}
         <div className="relative z-10 h-full flex flex-col items-center justify-between p-4">
           {/* 标题 */}
