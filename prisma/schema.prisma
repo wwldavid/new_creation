@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+enum ContentType {
+  AUDIO
+  VIDEO
+}
+
+
+model Sermon {
+  id          Int          @id @default(autoincrement())
+  title       String
+  speaker     String?      
+  date        DateTime     
+  scripture   String?      
+  description String?      
+  note        String?      
+  type        ContentType  // AUDIO 或 VIDEO
+  url         String       // R2 上的对象访问 URL
+  speakerImage String?     // 可选：主讲者头像 URL
+  sermonImage  String?     // 可选：讲道配图 URL
+  createdAt   DateTime     @default(now())
+}

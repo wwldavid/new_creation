@@ -59,6 +59,7 @@ const SermonVideoPlayer = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("zh-CN", {
+      timeZone: "America/Edmonton",
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -70,7 +71,7 @@ const SermonVideoPlayer = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl shadow-lg mt-5 mb-5">
+    <div className=" p-6 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl shadow-lg mt-5 mb-5">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-2">主日讲道</h2>
         <p className="text-gray-600">聆听神的话语，领受属灵的喂养</p>
