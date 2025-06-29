@@ -44,18 +44,22 @@ export default function SermonPlayer() {
   };
 
   // Fetch data from the API
-  const fetchData = async () => {
+  async function fetchData() {
     try {
       const res = await fetch(
         `/api/sermons?page=${page}&pageSize=10&q=${encodeURIComponent(q)}`
       );
+      if (!res.ok) {
+        console.error("API /api/sermons failed:", res.status, await res.text());
+        return; // bail out
+      }
       const { total, data } = await res.json();
       setTotal(total);
       setSermons(data);
     } catch (err) {
-      console.error(err);
+      console.error("fetchData threw:", err);
     }
-  };
+  }
 
   // Initial load & reload on page/q change
   useEffect(() => {
