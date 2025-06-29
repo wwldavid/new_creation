@@ -15,3 +15,7 @@
 8. npm install @aws-sdk/client-s3 formidable
 
 9. npx prisma studio
+
+10. npm install -D @tailwindcss/aspect-ratio
+
+11. npx prisma generate

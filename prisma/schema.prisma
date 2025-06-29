@@ -30,7 +30,8 @@ model Sermon {
   description String?      
   note        String?      
   type        ContentType  // AUDIO 或 VIDEO
-  url         String       // R2 上的对象访问 URL
+  key          String   // 这里存 R2 上的对象 key
+  url         String?       
   speakerImage String?     // 可选：主讲者头像 URL
   sermonImage  String?     // 可选：讲道配图 URL
   createdAt   DateTime     @default(now())

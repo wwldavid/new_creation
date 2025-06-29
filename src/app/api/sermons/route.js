@@ -45,7 +45,15 @@ export async function GET(request) {
     }),
   ]);
 
-  return NextResponse.json({ total, data });
+  // 还是这样返回
+  return NextResponse.json({
+    total,
+    data: data.map((s) => ({
+      ...s,
+      // 额外给前端一个播放地址字段，走中转路由
+      playUrl: `/api/sermons/media/${s.key}`,
+    })),
+  });
 }
 
 // POST /api/sermons
@@ -69,11 +77,11 @@ export async function POST(request) {
         ContentType: file.type,
       })
     );
-    return `${process.env.R2_ENDPOINT}/${process.env.R2_BUCKET}/${key}`;
+    return key;
   }
 
   // upload main sermon media
-  const url = await uploadFile("file", "media");
+  const key = await uploadFile("file", "media");
   const speakerImageUrl = await uploadFile("speakerImageFile", "speaker");
   const sermonImageUrl = await uploadFile("sermonImageFile", "sermon");
 
@@ -89,7 +97,7 @@ export async function POST(request) {
         formData.get("type") === "video"
           ? ContentType.VIDEO
           : ContentType.AUDIO,
-      url,
+      key,
       speakerImage: speakerImageUrl,
       sermonImage: sermonImageUrl,
     },

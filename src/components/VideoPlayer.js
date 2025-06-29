@@ -9,7 +9,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 
-const SermonVideoPlayer = () => {
+const VideoPlayer = () => {
   const sermons = [
     {
       id: 1,
@@ -196,4 +196,4 @@ const SermonVideoPlayer = () => {
   );
 };
 
-export default SermonVideoPlayer;
+export default VideoPlayer;
