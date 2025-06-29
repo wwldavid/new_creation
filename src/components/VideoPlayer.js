@@ -77,13 +77,16 @@ const VideoPlayer = () => {
         <p className="text-gray-600">聆听神的话语，领受属灵的喂养</p>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid  grid-cols-1  lg:grid-cols-3 gap-6">
         {/* 视频播放区域 */}
         <div className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
             {selectedSermon ? (
-              <div>
-                <div className="aspect-video bg-gray-900">
+              <div className="w-full">
+                <div
+                  className="relative w-full"
+                  style={{ paddingBottom: "56.25%" }}
+                >
                   <iframe
                     width="100%"
                     height="100%"
@@ -91,7 +94,7 @@ const VideoPlayer = () => {
                     title={selectedSermon.title}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                    className="w-full h-full border-none"
+                    className="absolute top-0 left-0 w-full h-full"
                   ></iframe>
                 </div>
                 <div className="p-6">
