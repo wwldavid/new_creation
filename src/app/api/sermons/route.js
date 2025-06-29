@@ -17,43 +17,44 @@ const s3 = new S3Client({
 });
 
 // GET. /api/sermons/page=1&pageSize=10q=...
+
 export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const page = parseInt(searchParams.get("page") || "1", 10);
-  const pageSize = parseInt(searchParams.get("pageSize") || "10", 10);
-  const q = searchParams.get("q") || "";
+  try {
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get("page") || "1", 10);
+    const pageSize = parseInt(url.searchParams.get("pageSize") || "10", 10);
+    const q = (url.searchParams.get("q") || "").trim();
 
-  const where = q
-    ? {
-        OR: [
-          { title: { contains: q, mode: "insensitive" } },
-          { speaker: { contains: q, mode: "insensitive" } },
-          { scripture: { contains: q, mode: "insensitive" } },
-          { description: { contains: q, mode: "insensitive" } },
-          { note: { contains: q, mode: "insensitive" } },
-        ],
-      }
-    : {};
+    const where = q
+      ? {
+          OR: [
+            { title: { contains: q, mode: "insensitive" } },
+            { speaker: { contains: q, mode: "insensitive" } },
+            { scripture: { contains: q, mode: "insensitive" } },
+          ],
+        }
+      : {};
 
-  const [total, data] = await Promise.all([
-    prisma.sermon.count({ where }),
-    prisma.sermon.findMany({
-      where,
-      orderBy: { date: "desc" },
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-    }),
-  ]);
+    const [total, data] = await Promise.all([
+      prisma.sermon.count({ where }),
+      prisma.sermon.findMany({
+        where,
+        orderBy: { date: "desc" },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+    ]);
 
-  // 还是这样返回
-  return NextResponse.json({
-    total,
-    data: data.map((s) => ({
-      ...s,
-      // 额外给前端一个播放地址字段，走中转路由
-      playUrl: `/api/sermons/media/${s.key}`,
-    })),
-  });
+    return NextResponse.json({ total, data });
+  } catch (err) {
+    // 1）把错误打印到 Vercel 函数日志
+    console.error("🔥 GET /api/sermons 出错：", err);
+    // 2）返回一个 JSON 错误给前端，避免返回空
+    return NextResponse.json(
+      { error: err.message || "服务器内部错误" },
+      { status: 500 }
+    );
+  }
 }
 
 // POST /api/sermons
