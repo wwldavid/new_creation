@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { Play, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { PlayCircle, ChevronLeft, ChevronRight, X } from "lucide-react";
 import Image from "next/image";
 
 export default function SermonPlayer() {
@@ -19,6 +19,7 @@ export default function SermonPlayer() {
     description: "",
     note: "",
     type: "audio",
+    youtubeId: "",
     file: null,
     speakerImageFile: null,
     sermonImageFile: null,
@@ -43,6 +44,12 @@ export default function SermonPlayer() {
     setPlayError(`播放失败: ${err}`);
   };
 
+  useEffect(() => {
+    if (!selected && sermons.length > 0) {
+      const def = sermons.find((s) => s.title === "需要的满足") || sermons[0];
+      setSelected(def);
+    }
+  }, [sermons]);
   // Fetch data from the API
   async function fetchData() {
     try {
@@ -51,13 +58,15 @@ export default function SermonPlayer() {
       );
       if (!res.ok) {
         console.error("API /api/sermons failed:", res.status, await res.text());
-        return; // bail out
+        alert("获取数据失败，请刷新页面重试");
+        return;
       }
       const { total, data } = await res.json();
       setTotal(total);
       setSermons(data);
     } catch (err) {
       console.error("fetchData threw:", err);
+      alert("网络连接错误，请检查网络连接");
     }
   }
 
@@ -70,18 +79,26 @@ export default function SermonPlayer() {
   const handleUpload = async (e) => {
     e.preventDefault();
 
-    if (!form.file) {
-      return alert("请先选择一个媒体文件！");
+    if (!form.youtubeId && !form.file) {
+      return alert("请先选择一个媒体文件, 或填写 YouTube ID !");
     }
 
     const fd = new FormData();
     Object.entries(form).forEach(([k, v]) => {
-      if (v != null) fd.append(k, v);
+      if (
+        v != null &&
+        k !== "file" &&
+        (k !== "speakerImageFile") & (k !== "sermonImageFile")
+      ) {
+        fd.append(k, v);
+      }
     });
+    if (form.file) fd.append("file", form.file);
     if (form.speakerImageFile)
       fd.append("speakerImageFile", form.speakerImageFile);
     if (form.sermonImageFile)
       fd.append("sermonImageFile", form.sermonImageFile);
+    fd.append("youtubeId", form.youtubeId);
 
     try {
       const res = await fetch("/api/sermons", {
@@ -105,6 +122,7 @@ export default function SermonPlayer() {
         description: "",
         note: "",
         type: "audio",
+        youtubeId: "",
         file: null,
         speakerImageFile: null,
         sermonImageFile: null,
@@ -147,47 +165,50 @@ export default function SermonPlayer() {
         {selected ? (
           <div className="flex items-stretch space-x-4">
             {/* 播放器区域 */}
-
-            {/* 根据类型显示不同的播放器 */}
-            {selected && (
-              <div className="basis-3/4 mb-4">
-                {(() => {
-                  const isVideo = selected.type.toLowerCase() === "video";
-
-                  return (
-                    <>
-                      {isVideo ? (
-                        <div className="w-full rounded-lg overflow-hidden bg-black">
-                          <video
-                            ref={videoRef}
-                            src={selected.playUrl}
-                            poster={selected.sermonImage}
-                            controls
-                            autoPlay
-                            className="w-full"
-                            style={{ maxHeight: "500px" }}
-                            onError={handleMediaError}
-                          >
-                            您的浏览器不支持 HTML5 视频播放
-                          </video>
-                        </div>
-                      ) : (
-                        <audio
-                          ref={audioRef}
-                          key={selected.id}
-                          src={selected.playUrl}
-                          controls
-                          autoPlay
-                          className="w-full"
-                          onError={handleMediaError}
-                        />
-                      )}
-                    </>
-                  );
-                })()}
-              </div>
-            )}
-
+            <div className="basis-3/4 mb-4">
+              {selected.youtubeId ? (
+                <div
+                  className="relative w-full rounded-lg overflow-hidden bg-black"
+                  style={{ paddingBottom: "56.25%" }}
+                >
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${selected.youtubeId}`}
+                    title={selected.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute top-0 left-0 w-full h-full"
+                  ></iframe>
+                </div>
+              ) : selected.type.toLowerCase() === "video" ? (
+                <div className="w-full rounded-lg overflow-hidden bg-black">
+                  <video
+                    ref={videoRef}
+                    src={selected.playUrl}
+                    poster={selected.sermonImage}
+                    controls
+                    autoPlay
+                    className="w-full"
+                    style={{ maxHeight: "500px" }}
+                    onError={handleMediaError}
+                  >
+                    您的浏览器不支持 HTML5 视频播放
+                  </video>
+                </div>
+              ) : (
+                <audio
+                  ref={audioRef}
+                  key={selected.id}
+                  src={selected.playUrl}
+                  controls
+                  autoPlay
+                  className="w-full"
+                  onError={handleMediaError}
+                />
+              )}
+            </div>
+            {/*侧边信息*/}
             <div className="relative mb-4 bg-[#c8d5bb] flex-1 self-stretch rounded-lg p-4">
               <div className="space-y-2 text-sm overflow-y-auto">
                 <h6 className="font-semibold">Description</h6>
@@ -238,7 +259,7 @@ export default function SermonPlayer() {
 
       {/* 列表 */}
       <div className="overflow-x-auto bg-white rounded-lg shadow">
-        <table className="min-w-full">
+        <table className="min-w-full ">
           <thead className="bg-gray-100">
             <tr>
               {[
@@ -248,6 +269,7 @@ export default function SermonPlayer() {
                 "Speaker",
                 "Date",
                 "Scripture",
+                "YouTube ID",
                 "Desc",
                 "Note",
                 "edit",
@@ -265,27 +287,23 @@ export default function SermonPlayer() {
           <tbody>
             {sermons.map((s) => (
               <tr key={s.id} className="border-b hover:bg-blue-50">
-                <td className="px-4 py-2">{s.title}</td>
+                <td className="w-32 px-4 py-2">{s.title}</td>
                 <td className="px-4 py-2">
                   <button
                     onClick={() => {
                       setPlayError(null);
-                      console.log("点击播放，媒体信息:", s);
-                      console.log(
-                        "媒体类型:",
-                        s.type,
-                        "转小写:",
-                        s.type.toLowerCase()
-                      );
-
-                      setSelected({
-                        ...s,
-                        playUrl: `/api/sermons/media/${s.key}`,
-                      });
+                      if (s.youtubeId) {
+                        setSelected(s);
+                      } else {
+                        setSelected({
+                          ...s,
+                          playUrl: `/api/sermons/media/${s.key}`,
+                        });
+                      }
                     }}
                     className="p-2 hover:bg-blue-100 rounded-full transition-colors"
                   >
-                    <Play className="w-5 h-5" />
+                    <PlayCircle className="w-6 h-6 text-blue-600" />
                   </button>
                 </td>
                 <td className="px-4 py-2">
@@ -305,8 +323,11 @@ export default function SermonPlayer() {
                   {new Date(s.date).toLocaleDateString()}
                 </td>
                 <td className="px-4 py-2">{s.scripture || "-"}</td>
-                <td className="px-4 py-2 line-clamp-2">
-                  {s.description || "-"}
+                <td className="px-4 py-2">{s.youtubeId || "-"}</td>
+                <td className="px-4 py-2 ">
+                  <div className="max-w-[12ch] break-words line-clamp-2 overflow-hidden">
+                    {s.description || "-"}
+                  </div>
                 </td>
                 <td className="px-4 py-2">{s.note || "-"}</td>
                 <td className="px-4 py-2">
@@ -389,27 +410,51 @@ export default function SermonPlayer() {
                     return;
                   }
                   const { mode, sermon } = pwModal;
+
                   if (mode === "delete") {
-                    // DELETE 请求
-                    const res = await fetch(`/api/sermons/${sermon.id}`, {
-                      method: "DELETE",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ adminPw: pwInput }),
-                    });
-                    if (res.ok) {
-                      fetchData();
-                    } else if (res.status === 403) {
-                      alert("密码错误，删除失败");
-                    } else {
-                      alert("删除失败");
+                    try {
+                      console.log(`开始删除 sermon ID: ${sermon.id}`);
+
+                      const res = await fetch(`/api/sermons/${sermon.id}`, {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ adminPw: pwInput }),
+                      });
+
+                      console.log(`删除请求状态: ${res.status}`);
+
+                      if (res.ok) {
+                        const result = await res.json();
+                        console.log("删除成功:", result);
+                        alert("删除成功");
+                        // 关闭模态框
+                        setPwModal({ open: false, mode: null, sermon: null });
+                        setPwInput("");
+                        // 然后刷新列表
+                        await fetchData();
+                      } else if (res.status === 403) {
+                        alert("密码错误，删除失败");
+                      } else {
+                        const errorText = await res.text();
+                        console.error("删除失败响应:", errorText);
+                        try {
+                          const errorData = JSON.parse(errorText);
+                          alert(`删除失败: ${errorData.error || "未知错误"}`);
+                        } catch {
+                          alert(`删除失败 (状态码: ${res.status})`);
+                        }
+                      }
+                    } catch (error) {
+                      console.error("删除操作出错:", error);
+                      alert("删除过程中出现网络错误，请重试");
                     }
-                  } else {
-                    // 编辑，打开真正的编辑 Modal
+                  } else if (mode === "edit") {
+                    // 编辑模式：打开编辑表单
                     setEditForm({ ...sermon, adminPw: pwInput });
+                    // 关闭密码模态框
+                    setPwModal({ open: false, mode: null, sermon: null });
+                    setPwInput("");
                   }
-                  // 关闭密码 Modal
-                  setPwModal({ open: false, mode: null, sermon: null });
-                  setPwInput("");
                 }}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
@@ -433,6 +478,7 @@ export default function SermonPlayer() {
               { key: "scripture", label: "Scripture", type: "text" },
               { key: "description", label: "Description", type: "text" },
               { key: "note", label: "Note", type: "text" },
+              { key: "youtubeId", label: "YouTube ID", type: "text" },
               // 新增三项：
               {
                 key: "type",
@@ -501,7 +547,7 @@ export default function SermonPlayer() {
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center p-4 z-50">
           <form
             onSubmit={handleUpload}
-            className="bg-white p-6 rounded-xl space-y-4 max-w-md w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white p-6 rounded-xl space-y-4 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
           >
             <h3 className="text-xl font-semibold">上传 Sermon</h3>
 
@@ -535,6 +581,16 @@ export default function SermonPlayer() {
               />
             ))}
 
+            <input
+              type="text"
+              placeholder="YouTube ID (可选填写)"
+              value={form.youtubeId}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, youtubeId: e.target.value }))
+              }
+              className="w-full border px-3 py-2 rounded-lg"
+            />
+
             <select
               value={form.type}
               onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))}
@@ -545,11 +601,12 @@ export default function SermonPlayer() {
             </select>
 
             <label className="block">
-              <span className="text-gray-700">媒体文件 (音频或视频)</span>
+              <span className="text-gray-700">
+                媒体文件 (可选, 当填写了YouTube ID 时可不传)
+              </span>
               <input
                 type="file"
                 accept="audio/*,video/*"
-                required
                 onChange={(e) =>
                   setForm((f) => ({ ...f, file: e.target.files[0] }))
                 }

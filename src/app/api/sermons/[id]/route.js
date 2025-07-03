@@ -26,10 +26,13 @@ export async function PATCH(request, { params }) {
       type: data.type,
       speakerImage: data.speakerImage,
       sermonImage: data.sermonImage,
+      youtubeId: data.youtubeId || null,
+      // 如果要支持同时更新 R2 媒体文件，就在这里调用 uploadFile 并赋 newKey
     },
   });
   return NextResponse.json(updated);
 }
+console.log("🛠️ DELETE 路由，DATABASE_URL =", process.env.DATABASE_URL);
 
 export async function DELETE(request, { params }) {
   const { adminPw } = await request.json();
