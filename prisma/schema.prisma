@@ -29,3 +29,38 @@ enum ContentType {
   AUDIO
   VIDEO
 }
+
+model Activity {
+  id           Int           @id @default(autoincrement())
+  name         String
+  startAt      DateTime
+  endAt        DateTime
+  organizer    String
+  contact      String
+  location     String
+  feeType      String
+  detail       String?
+  other        String?
+  attachments  String[]      // 之前的附件
+  promoImage   String?       // 新增：宣传图，可空
+  adminPw      String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  applications Application[]
+}
+
+model Application {
+  id          Int       @id @default(autoincrement())
+  activity    Activity  @relation(fields: [activityId], references: [id])
+  activityId  Int
+  name        String
+  phone       String
+  email       String
+  other       String?
+  attachments String[]   // R2 key 列表
+  userPw      String     // bcrypt 哈希
+  status      String     @default("pending") // pending | confirmed
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
