@@ -1,10 +1,20 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-export default function ActivityCreator({ existing, onSuccess }) {
+export default function ActivityCreator({
+  existing,
+  skipAuth = false,
+  onSuccess,
+}) {
+  const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
+  const initialMode = existing && skipAuth ? "form" : "idle"; // 其它情况保持原逻辑
+  const [mode, setMode] = useState(initialMode);
+
+  const [passwordInput, setPasswordInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: existing?.name || "",
-    startAt: existing?.startAt?.slice(0, 16) || "", // "YYYY-MM-DDTHH:mm"
+    startAt: existing?.startAt?.slice(0, 16) || "",
     endAt: existing?.endAt?.slice(0, 16) || "",
     organizer: existing?.organizer || "",
     contact: existing?.contact || "",
@@ -14,9 +24,7 @@ export default function ActivityCreator({ existing, onSuccess }) {
     other: existing?.other || "",
     attachments: existing?.attachments || [],
     promoImageFile: null,
-    adminPw: "",
   });
-  const [loading, setLoading] = useState(false);
 
   async function uploadFile(file) {
     const fd = new FormData();
@@ -29,15 +37,61 @@ export default function ActivityCreator({ existing, onSuccess }) {
     return data.key;
   }
 
-  async function handleSubmit(e) {
+  const handleAuth = () => {
+    if (passwordInput === ADMIN_PASSWORD) {
+      setMode("form");
+    } else {
+      alert("管理员密码错误");
+      setPasswordInput("");
+    }
+  };
+
+  const resetToIdle = () => {
+    setMode("idle");
+    setPasswordInput("");
+  };
+
+  const handleDelete = async () => {
+    if (!confirm("确定删除该活动？此操作无法撤销。")) return;
+    setLoading(true);
+    try {
+      await fetch("/api/activities", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: existing.id,
+          adminPw: ADMIN_PASSWORD,
+        }),
+      });
+      onSuccess?.();
+      resetToIdle();
+    } catch {
+      alert("删除失败，请重试");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
+      // 上传宣传图
       let promoKey = existing?.promoImage || null;
       if (form.promoImageFile) {
         promoKey = await uploadFile(form.promoImageFile);
       }
+      // 处理附件：保留旧 key + 上传新文件
+      const oldKeys =
+        existing?.attachments?.filter((k) => typeof k === "string") || [];
+      const newFiles = form.attachments.filter((f) => f instanceof File);
+      const newKeys = newFiles.length
+        ? await Promise.all(newFiles.map(uploadFile))
+        : [];
+      const attachmentKeys = [...oldKeys, ...newKeys];
+
       const payload = {
+        ...(existing && { id: existing.id }),
         name: form.name,
         startAt: new Date(form.startAt).toISOString(),
         endAt: new Date(form.endAt).toISOString(),
@@ -47,128 +101,256 @@ export default function ActivityCreator({ existing, onSuccess }) {
         feeType: form.feeType,
         detail: form.detail,
         other: form.other,
-        attachments: form.attachments,
+        attachments: attachmentKeys,
         promoImageKey: promoKey,
-        adminPw: form.adminPw,
-        ...(existing && { id: existing.id }),
+        adminPw: ADMIN_PASSWORD,
       };
-      const url = "/api/activities";
-      const method = existing ? "PATCH" : "POST";
-      await fetch(url, {
-        method,
+
+      await fetch("/api/activities", {
+        method: existing ? "PATCH" : "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
       onSuccess?.();
-    } catch (err) {
-      console.error(err);
+      // 重置表单
+      setForm({
+        name: "",
+        startAt: "",
+        endAt: "",
+        organizer: "",
+        contact: "",
+        location: "",
+        feeType: "",
+        detail: "",
+        other: "",
+        attachments: [],
+        promoImageFile: null,
+      });
+      resetToIdle();
+    } catch {
       alert("提交失败，请重试");
     } finally {
       setLoading(false);
     }
+  };
+
+  // —— 空闲态：创建 or 编辑+删除 ——
+  if (mode === "idle") {
+    if (!existing) {
+      return (
+        <button
+          onClick={() => setMode("auth")}
+          className="px-4 py-2 bg-blue-600 text-white rounded"
+        >
+          创建活动
+        </button>
+      );
+    }
+
+    // 编辑态：传了 existing，但如果 skipAuth，就不渲染按钮
+    if (skipAuth) {
+      return null;
+    }
+
+    return (
+      <div className="flex space-x-2">
+        <button
+          onClick={() => setMode("auth")}
+          className="px-3 py-1 bg-green-600 text-white rounded"
+        >
+          编辑活动
+        </button>
+        <button
+          onClick={handleDelete}
+          disabled={loading}
+          className="px-3 py-1 bg-red-600 text-white rounded"
+        >
+          删除活动
+        </button>
+      </div>
+    );
   }
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-xl font-semibold">
-        {existing ? "编辑活动" : "创建活动"}
-      </h2>
-      <input
-        required
-        placeholder="活动名称"
-        className="w-full border px-3 py-2 rounded"
-        value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-      />
-      <div className="flex space-x-2">
-        <div>
-          <label>开始时间</label>
-          <input
-            type="datetime-local"
-            required
-            className="border px-3 py-2 rounded"
-            value={form.startAt}
-            onChange={(e) => setForm({ ...form, startAt: e.target.value })}
-          />
-        </div>
-        <div>
-          <label>结束时间</label>
-          <input
-            type="datetime-local"
-            required
-            className="border px-3 py-2 rounded"
-            value={form.endAt}
-            onChange={(e) => setForm({ ...form, endAt: e.target.value })}
-          />
-        </div>
-      </div>
-      <input
-        required
-        placeholder="组织者"
-        className="w-full border px-3 py-2 rounded"
-        value={form.organizer}
-        onChange={(e) => setForm({ ...form, organizer: e.target.value })}
-      />
-      <input
-        required
-        placeholder="联系方式"
-        className="w-full border px-3 py-2 rounded"
-        value={form.contact}
-        onChange={(e) => setForm({ ...form, contact: e.target.value })}
-      />
-      <input
-        required
-        placeholder="地点"
-        className="w-full border px-3 py-2 rounded"
-        value={form.location}
-        onChange={(e) => setForm({ ...form, location: e.target.value })}
-      />
-      <input
-        required
-        placeholder="收费方式"
-        className="w-full border px-3 py-2 rounded"
-        value={form.feeType}
-        onChange={(e) => setForm({ ...form, feeType: e.target.value })}
-      />
-      <textarea
-        placeholder="具体细节介绍"
-        className="w-full border px-3 py-2 rounded"
-        value={form.detail}
-        onChange={(e) => setForm({ ...form, detail: e.target.value })}
-      />
-      <textarea
-        placeholder="其它事项"
-        className="w-full border px-3 py-2 rounded"
-        value={form.other}
-        onChange={(e) => setForm({ ...form, other: e.target.value })}
-      />
-      <div>
-        <label>宣传图片（可选）</label>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) =>
-            setForm({ ...form, promoImageFile: e.target.files[0] })
-          }
-        />
-      </div>
-      <div>
-        <label>发起人密码</label>
+  // —— 验证态 ——
+  if (mode === "auth") {
+    return (
+      <div className="space-y-4 max-w-md">
         <input
           type="password"
-          required
-          className="w-full border px-3 py-2 rounded"
-          value={form.adminPw}
-          onChange={(e) => setForm({ ...form, adminPw: e.target.value })}
+          placeholder="请输入管理员密码"
+          className="w-full border px-3 py-1 rounded"
+          value={passwordInput}
+          onChange={(e) => setPasswordInput(e.target.value)}
         />
+        <div className="flex space-x-2">
+          <button
+            onClick={handleAuth}
+            className="flex-1 px-3 py-1 bg-green-600 text-white rounded"
+          >
+            确认
+          </button>
+          <button
+            onClick={resetToIdle}
+            className="flex-1 px-3 py-1 bg-gray-400 text-white rounded"
+          >
+            取消
+          </button>
+        </div>
       </div>
-      <button
-        type="submit"
-        disabled={loading}
-        className="px-4 py-2 bg-blue-600 text-white rounded"
-      >
-        {loading ? "提交中…" : existing ? "更新活动" : "创建活动"}
-      </button>
-    </form>
+    );
+  }
+
+  // —— 表单态 ——
+  return (
+    <div className="w-full bg-gray-50 p-4 rounded shadow mt-4">
+      <h3 className="text-lg font-semibold mb-4">
+        {existing ? "编辑活动详情" : "创建活动"}
+      </h3>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* 活动名称 */}
+        <div>
+          <label className="block text-sm font-medium mb-1">活动名称</label>
+          <input
+            type="text"
+            className="w-full border px-3 py-2 rounded"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required={!existing}
+          />
+        </div>
+        {/* 时间范围 */}
+        <div className="flex space-x-4">
+          <div className="flex-1">
+            <label className="block text-sm font-medium mb-1">开始时间</label>
+            <input
+              type="datetime-local"
+              className="w-full border px-3 py-2 rounded"
+              value={form.startAt}
+              onChange={(e) => setForm({ ...form, startAt: e.target.value })}
+              required={!existing}
+            />
+          </div>
+          <div className="flex-1">
+            <label className="block text-sm font-medium mb-1">结束时间</label>
+            <input
+              type="datetime-local"
+              className="w-full border px-3 py-2 rounded"
+              value={form.endAt}
+              onChange={(e) => setForm({ ...form, endAt: e.target.value })}
+              required={!existing}
+            />
+          </div>
+        </div>
+        {/* 组织者 */}
+        <div>
+          <label className="block text-sm font-medium mb-1">组织者</label>
+          <input
+            type="text"
+            className="w-full border px-3 py-2 rounded"
+            value={form.organizer}
+            onChange={(e) => setForm({ ...form, organizer: e.target.value })}
+            required={!existing}
+          />
+        </div>
+        {/* 联系方式 */}
+        <div>
+          <label className="block text-sm font-medium mb-1">联系方式</label>
+          <input
+            type="text"
+            className="w-full border px-3 py-2 rounded"
+            value={form.contact}
+            onChange={(e) => setForm({ ...form, contact: e.target.value })}
+            required={!existing}
+          />
+        </div>
+        {/* 地点 */}
+        <div>
+          <label className="block text-sm font-medium mb-1">地点</label>
+          <input
+            type="text"
+            className="w-full border px-3 py-2 rounded"
+            value={form.location}
+            onChange={(e) => setForm({ ...form, location: e.target.value })}
+            required={!existing}
+          />
+        </div>
+        {/* 收费方式 */}
+        <div>
+          <label className="block text-sm font-medium mb-1">收费方式</label>
+          <input
+            type="text"
+            className="w-full border px-3 py-2 rounded"
+            value={form.feeType}
+            onChange={(e) => setForm({ ...form, feeType: e.target.value })}
+            required={!existing}
+          />
+        </div>
+        {/* 细节 & 其他 */}
+        <div>
+          <label className="block text-sm font-medium mb-1">具体细节介绍</label>
+          <textarea
+            className="w-full border px-3 py-2 rounded"
+            value={form.detail}
+            onChange={(e) => setForm({ ...form, detail: e.target.value })}
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">其它事项</label>
+          <textarea
+            className="w-full border px-3 py-2 rounded"
+            value={form.other}
+            onChange={(e) => setForm({ ...form, other: e.target.value })}
+          />
+        </div>
+        {/* 宣传图 & 附件 */}
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            宣传图片（可选）
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setForm({ ...form, promoImageFile: e.target.files[0] })
+            }
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            上传附件（可多选）
+          </label>
+          <input
+            type="file"
+            multiple
+            onChange={(e) =>
+              setForm({ ...form, attachments: Array.from(e.target.files) })
+            }
+          />
+        </div>
+        {/* 操作按钮 */}
+        <div className="flex justify-end space-x-2">
+          <button
+            type="button"
+            onClick={resetToIdle}
+            className="px-4 py-2 bg-gray-300 rounded"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="px-4 py-2 bg-blue-600 text-white rounded"
+          >
+            {loading
+              ? existing
+                ? "更新中…"
+                : "提交中…"
+              : existing
+              ? "更新活动"
+              : "创建活动"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }

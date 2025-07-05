@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import prisma from "../../../../lib/prisma";
-import bcrypt from "bcryptjs";
+
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+if (!ADMIN_PASSWORD) {
+  throw new Error("ADMIN_PASSWORD must be set");
+}
 
 export async function POST(req) {
   const {
@@ -18,7 +23,10 @@ export async function POST(req) {
     adminPw,
   } = await req.json();
 
-  const hash = await bcrypt.hash(adminPw, 10);
+  if (adminPw !== ADMIN_PASSWORD) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const activity = await prisma.activity.create({
     data: {
       name,
@@ -32,7 +40,6 @@ export async function POST(req) {
       other,
       attachments,
       promoImage: promoImageKey,
-      adminPw: hash,
     },
   });
 
@@ -40,20 +47,32 @@ export async function POST(req) {
 }
 
 export async function PATCH(req) {
-  const { id, adminPw, ...rest } = await req.json();
+  // 把特殊字段单列，restFields 里剩下其它可直接映射的字段
+  const {
+    id,
+    adminPw,
+    attachments, // 如果前端需要更新附件数组，就会在这里拿到 string[]
+    promoImageKey, // 如果前端需要更新宣传图，就会传这个字段
+    startAt,
+    endAt,
+    ...restFields // 其余字段：name/contact/location/detail/other/feeType 等
+  } = await req.json();
+
+  if (adminPw !== ADMIN_PASSWORD) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const act = await prisma.activity.findUnique({ where: { id } });
   if (!act) {
     return NextResponse.json({ error: "Not Found" }, { status: 404 });
   }
-  const valid = await bcrypt.compare(adminPw, act.adminPw);
-  if (!valid) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
 
-  const data = { ...rest };
-  if (rest.startAt) data.startAt = new Date(rest.startAt);
-  if (rest.endAt) data.endAt = new Date(rest.endAt);
-  if (rest.promoImageKey !== undefined) data.promoImage = rest.promoImageKey;
+  // 构造更新数据
+  const data = { ...restFields };
+  if (startAt) data.startAt = new Date(startAt);
+  if (endAt) data.endAt = new Date(endAt);
+  if (promoImageKey !== undefined) data.promoImage = promoImageKey;
+  if (attachments !== undefined) data.attachments = attachments;
 
   const updated = await prisma.activity.update({
     where: { id },
@@ -65,14 +84,16 @@ export async function PATCH(req) {
 
 export async function DELETE(req) {
   const { id, adminPw } = await req.json();
+
+  if (adminPw !== ADMIN_PASSWORD) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const act = await prisma.activity.findUnique({ where: { id } });
   if (!act) {
     return NextResponse.json({ error: "Not Found" }, { status: 404 });
   }
-  const valid = await bcrypt.compare(adminPw, act.adminPw);
-  if (!valid) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+
   await prisma.activity.delete({ where: { id } });
   return NextResponse.json({ success: true });
 }

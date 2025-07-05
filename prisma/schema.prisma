@@ -41,9 +41,9 @@ model Activity {
   feeType      String
   detail       String?
   other        String?
-  attachments  String[]      // 之前的附件
+  attachments  String[]      @default([])  // 默认空数组
   promoImage   String?       // 新增：宣传图，可空
-  adminPw      String
+  
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 
