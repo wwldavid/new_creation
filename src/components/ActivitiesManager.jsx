@@ -165,7 +165,6 @@ export default function ActivitiesManager({
       {/* 报名区（可选） */}
       {showApplicationForm && activities[0] && (
         <section className="border rounded p-4 bg-gray-50">
-          <h2 className="text-2xl font-semibold mb-4">报名表单</h2>
           <ApplicationForm
             activityId={activities[0].id}
             onSuccess={() => {

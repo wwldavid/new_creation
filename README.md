@@ -19,3 +19,9 @@
 10. npm install -D @tailwindcss/aspect-ratio
 
 11. npx prisma generate
+
+12. npm install @shadcn/ui
+
+13. npx shadcn@latest init
+
+14. npx shadcn@latest add dialog button input select textarea
