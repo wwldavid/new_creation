@@ -10,9 +10,10 @@ export default function Navbar() {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/events", label: "Events" },
+
+    { href: "/camp", label: "Training Camp" },
     { href: "/sermons", label: "Sermons" },
+    { href: "/event", label: "Events" },
     { href: "/connect", label: "Connect" },
     { href: "/donate", label: "Donate" },
   ];

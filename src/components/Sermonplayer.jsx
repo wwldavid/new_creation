@@ -155,7 +155,7 @@ export default function SermonPlayer() {
   };
 
   return (
-    <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl shadow-lg mt-5 mb-5">
+    <div className="w-full p-6 bg-gradient-to-br rounded-xl shadow-sm mt-5 mb-5">
       {/* 播放区 */}
       {playError && (
         <div className="text-red-500 text-center mb-4">{playError}</div>
