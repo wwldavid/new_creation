@@ -170,21 +170,21 @@ export default function ApplicationTable({ data, activityId, refetch }) {
                 )}
               </td>
               <td className="px-2 py-1">{app.status}</td>
-              <td className="space-x-1 px-2 py-1">
+              <td className="flex gap-3 justify-center px-2 py-1">
                 <button
-                  className="text-blue-600"
+                  className="px-2 py-1 bg-[#69b076] text-white text-xs rounded hover:bg-[#6b7b6e]"
                   onClick={() => handleAction(app, "view")}
                 >
                   查看
                 </button>
                 <button
-                  className="text-green-600"
+                  className="px-2 py-1 bg-[#2ca9e1] text-white text-xs rounded hover:bg-[#165e83]"
                   onClick={() => handleAction(app, "edit")}
                 >
                   编辑
                 </button>
                 <button
-                  className="text-red-600"
+                  className="px-2 py-1 bg-[#fbd26d] text-white rounded hover:bg-[#ec6800] text-xs"
                   onClick={() => handleAction(app, "delete")}
                 >
                   删除
@@ -196,17 +196,17 @@ export default function ApplicationTable({ data, activityId, refetch }) {
       </table>
 
       {/* 右下角：查看所有 & 管理 */}
-      <div className=" flex space-x-2 p-4">
+      <div className=" mt-4 flex justify-end gap-4 items-center">
         <button
-          className={`px-4 py-2 rounded text-white ${
-            showAll ? "bg-red-600" : "bg-blue-600"
+          className={`px-2 py-1 rounded text-white ${
+            showAll ? "bg-red-600" : "bg-[#2ca9e1] hover:bg-[#165e83]"
           }`}
           onClick={handleToggleShow}
         >
-          {showAll ? "隐藏信息" : "查看信息"}
+          {showAll ? "隐藏信息" : "查看全部信息"}
         </button>
         <button
-          className="px-4 py-2 bg-gray-800 text-white rounded"
+          className="px-2 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
           onClick={() => handleAction(null, "manage")}
         >
           管理

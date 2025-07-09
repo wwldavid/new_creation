@@ -95,7 +95,7 @@ export default function Guestbook() {
                 </small>
                 <div className="space-x-1">
                   <button
-                    className="text-blue-500 text-xs"
+                    className="px-1 bg-[#2ca9e1] text-white text-xs rounded hover:bg-[#165e83]"
                     onClick={() => {
                       setEditingId(e.id);
                       setContent(e.content);
@@ -104,7 +104,7 @@ export default function Guestbook() {
                     编辑
                   </button>
                   <button
-                    className="text-red-500 text-xs"
+                    className="px-1 bg-[#fbd26d] text-white rounded hover:bg-[#ec6800] text-xs"
                     onClick={() => {
                       setDeleteTarget({ id: e.id, content: e.content });
                       setDeletePwd("");
@@ -139,7 +139,7 @@ export default function Guestbook() {
         onChange={(e) => setPw(e.target.value)}
       />
       <button
-        className=" bg-green-600 text-white py-1 px-2 rounded mb-4 w-28"
+        className="bg-[#2ca9e1] hover:bg-[#165e83] text-white py-1 px-2 rounded mb-4 w-28"
         onClick={handleSubmit}
         disabled={!content || !pw}
       >
@@ -156,7 +156,7 @@ export default function Guestbook() {
           onChange={(e) => setAdminPw(e.target.value)}
         />
         <button
-          className=" bg-red-500 text-white py-1 px-2 rounded w-28"
+          className="bg-[#fbd26d] hover:bg-[#ec6800] text-white py-1 px-2 rounded w-28"
           onClick={clearAll}
           disabled={!adminPw}
         >

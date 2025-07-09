@@ -9,7 +9,7 @@ export default function ActivityList({ activities = [] }) {
   return (
     <div className="space-y-6">
       {activities.map((act) => (
-        <div key={act.id} className="p-4 border rounded-md hover:shadow">
+        <div key={act.id} className="p-4 hover:shadow">
           {/* 活动标题 */}
           <h3 className="text-xl font-bold mb-4">{act.name}</h3>
 

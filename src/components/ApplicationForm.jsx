@@ -81,8 +81,8 @@ export default function ApplicationForm({ activityId, onSuccess }) {
   return (
     <div>
       {submittedList.length > 0 && (
-        <div className="mt-6">
-          <h4 className="text-md font-semibold">已提交的报名记录：</h4>
+        <div className=" rounded p-4 bg-white/50 shadow">
+          <h4 className="text-md font-semibold mb-4">已提交的报名记录：</h4>
           <ApplicationTable
             data={submittedList}
             activityId={activityId}
@@ -91,30 +91,35 @@ export default function ApplicationForm({ activityId, onSuccess }) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 mt-6 bg-white/50 shadow p-4"
+      >
         <h3 className="text-lg font-semibold">我要报名</h3>
         {/* 姓名 */}
         <input
           required
           placeholder="姓名"
-          className="w-full border px-3 py-2 rounded"
+          className="w-80 border px-3 py-2 rounded"
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
+        <br />
         {/* 电话 */}
         <input
           required
           placeholder="电话"
-          className="w-full border px-3 py-2 rounded"
+          className="w-80 border px-3 py-2 rounded"
           value={form.phone}
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
         />
+        <br />
         {/* 邮箱 */}
         <input
           required
           placeholder="邮箱"
           type="email"
-          className="w-full border px-3 py-2 rounded"
+          className="w-80 border px-3 py-2 rounded"
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
@@ -142,17 +147,18 @@ export default function ApplicationForm({ activityId, onSuccess }) {
         {/* 报名密码 */}
         <input
           required
-          placeholder="设置报名密码"
+          placeholder="设置个人报名密码"
           type="password"
-          className="w-full border px-3 py-2 rounded"
+          className="w-80 border px-3 py-2 rounded"
           value={form.userPw}
           onChange={(e) => setForm({ ...form, userPw: e.target.value })}
         />
+        <br />
         {/* 提交按钮 */}
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-green-600 text-white rounded"
+          className="px-4 py-2 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
         >
           {loading ? "提交中…" : "提交报名"}
         </button>

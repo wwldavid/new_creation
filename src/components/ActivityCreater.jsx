@@ -140,9 +140,9 @@ export default function ActivityCreator({
       return (
         <button
           onClick={() => setMode("auth")}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
+          className="px-2 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
         >
-          创建活动
+          开始创建
         </button>
       );
     }
@@ -174,7 +174,7 @@ export default function ActivityCreator({
   // —— 验证态 ——
   if (mode === "auth") {
     return (
-      <div className="space-y-4 max-w-md">
+      <div className="w-96 flex gap-4 items-center">
         <input
           type="password"
           placeholder="请输入管理员密码"
@@ -182,16 +182,16 @@ export default function ActivityCreator({
           value={passwordInput}
           onChange={(e) => setPasswordInput(e.target.value)}
         />
-        <div className="flex space-x-2">
+        <div className="w-48 flex gap-4">
           <button
             onClick={handleAuth}
-            className="flex-1 px-3 py-1 bg-green-600 text-white rounded"
+            className=" px-2 py-1 bg-green-600 text-white rounded"
           >
             确认
           </button>
           <button
             onClick={resetToIdle}
-            className="flex-1 px-3 py-1 bg-gray-400 text-white rounded"
+            className=" px-2 py-1 bg-gray-400 text-white rounded"
           >
             取消
           </button>

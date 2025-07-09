@@ -76,15 +76,9 @@ export default function ActivitiesManager({
 
   return (
     <div className="max-w-6xl mx-auto flex flex-col gap-6 my-8">
-      {/* 创建区 */}
-      <section className="border rounded p-4 bg-gray-50">
-        <h2 className="text-2xl font-semibold mb-4">创建新活动</h2>
-        <ActivityCreator onSuccess={handleSuccess} />
-      </section>
-
       {/* 列表区 */}
       <section>
-        <h2 className="text-xl font-semibold mb-4">活动列表</h2>
+        <h2 className="text-xl font-semibold mb-4">近期活动列表</h2>
         {activities.length === 0 ? (
           <p className="text-gray-600">暂无活动，快去创建吧！</p>
         ) : (
@@ -92,20 +86,20 @@ export default function ActivitiesManager({
             {activities.map((act) => (
               <div
                 key={act.id}
-                className="relative border rounded p-4 bg-white shadow"
+                className="relative rounded p-4 bg-white/50 shadow"
               >
                 <ActivityList activities={[act]} />
 
                 <div className="absolute bottom-4 right-4 flex space-x-2">
                   <button
                     onClick={() => startAuth(act, "edit")}
-                    className="px-3 py-1 bg-green-600 text-white rounded"
+                    className="px-3 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
                   >
                     编辑
                   </button>
                   <button
                     onClick={() => startAuth(act, "delete")}
-                    className="px-3 py-1 bg-red-600 text-white rounded"
+                    className="px-3 py-1 bg-[#fbd26d] hover:bg-[#ec6800] text-white rounded"
                   >
                     删除
                   </button>
@@ -113,27 +107,29 @@ export default function ActivitiesManager({
 
                 {/* —— 行内密码验证框 —— */}
                 {authingId === act.id && (
-                  <div className="mt-2  flex gap-3 rounded space-y-2">
+                  <div className="mt-2  flex gap-3 rounded">
                     <input
                       type="password"
                       placeholder="请输入管理员密码"
-                      className=" border px-3 py-1 rounded"
+                      className="border px-3 py-1 rounded"
                       value={passwordInput}
                       onChange={(e) => setPasswordInput(e.target.value)}
                     />
 
-                    <button
-                      onClick={() => confirmAuth(act)}
-                      className=" px-3 py-1 bg-green-600 text-white rounded"
-                    >
-                      确认
-                    </button>
-                    <button
-                      onClick={cancelAuth}
-                      className=" px-3 py-1 bg-gray-400 text-white rounded"
-                    >
-                      取消
-                    </button>
+                    <div>
+                      <button
+                        onClick={() => confirmAuth(act)}
+                        className=" px-3 py-1 bg-green-600 text-white rounded"
+                      >
+                        确认
+                      </button>
+                      <button
+                        onClick={cancelAuth}
+                        className=" px-3 py-1 bg-gray-400 text-white rounded"
+                      >
+                        取消
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -162,9 +158,15 @@ export default function ActivitiesManager({
         </section>
       )}
 
+      {/* 创建区 */}
+      <section className="rounded p-4 bg-white/50 shadow">
+        <h2 className="text-xl font-semibold mb-4">创建新活动</h2>
+        <ActivityCreator onSuccess={handleSuccess} />
+      </section>
+
       {/* 报名区（可选） */}
       {showApplicationForm && activities[0] && (
-        <section className="border rounded p-4 bg-gray-50">
+        <section>
           <ApplicationForm
             activityId={activities[0].id}
             onSuccess={() => {
