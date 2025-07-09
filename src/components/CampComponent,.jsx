@@ -98,11 +98,11 @@ const CampComponent = () => {
       </div>
 
       {/* 营会内容 */}
-      <div className="max-w-6xl mx-auto px-4 pb-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         {camps.map((camp, index) => (
           <div
             key={camp.id}
-            className={`mb-16 rounded-2xl shadow-2xl overflow-hidden transform transition-all duration-500 hover:scale-[1.02] hover:shadow-3xl ${
+            className={`mb-12 lg:mb-16 rounded-2xl shadow-lg overflow-hidden transform transition-all duration-500 hover:scale-[1.02] hover:shadow-xl flex flex-col gap-6 ${
               index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
             } flex flex-col lg:flex`}
             style={{
@@ -111,14 +111,15 @@ const CampComponent = () => {
             }}
           >
             {/* 图片部分 */}
-            <div className="lg:w-2/5 relative">
-              <div className="h-64 lg:h-full relative overflow-hidden">
+            <div className="w-full lg:w-2/5">
+              <div className="relative h-[480px] sm:h-full  overflow-hidden">
                 <Image
                   src={camp.image}
                   alt={camp.title}
                   fill
-                  className="object-cover transition-transform duration-700 hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 33vw"
+                  className="object-contain sm:object-cover transition-transform duration-700 hover:scale-110"
+                  // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 33vw"
+                  sizes="100vw"
                 />
                 <div
                   className="absolute inset-0 opacity-20"
@@ -155,28 +156,6 @@ const CampComponent = () => {
                     {paragraph}
                   </p>
                 ))}
-              </div>
-
-              {/* 装饰元素 */}
-              <div className="mt-8 flex items-center">
-                <div
-                  className="w-12 h-1 rounded-full mr-4"
-                  style={{
-                    backgroundColor: index % 2 === 0 ? "#b59959" : "#ece1d1",
-                  }}
-                ></div>
-                <div
-                  className="w-6 h-1 rounded-full mr-2"
-                  style={{
-                    backgroundColor: index % 2 === 0 ? "#b59959" : "#ece1d1",
-                  }}
-                ></div>
-                <div
-                  className="w-3 h-1 rounded-full"
-                  style={{
-                    backgroundColor: index % 2 === 0 ? "#b59959" : "#ece1d1",
-                  }}
-                ></div>
               </div>
             </div>
           </div>
