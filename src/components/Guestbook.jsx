@@ -95,7 +95,7 @@ export default function Guestbook() {
                 </small>
                 <div className="space-x-1">
                   <button
-                    className="px-1 bg-[#2ca9e1] text-white text-xs rounded hover:bg-[#165e83]"
+                    className="px-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white text-xs rounded"
                     onClick={() => {
                       setEditingId(e.id);
                       setContent(e.content);

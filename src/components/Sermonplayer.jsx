@@ -163,7 +163,7 @@ export default function SermonPlayer() {
 
       <div className="mb-6">
         {selected ? (
-          <div className="flex items-stretch space-x-4">
+          <div className="flex flex-col sm:flex-row items-stretch gap-1 sm:gap-4">
             {/* 播放器区域 */}
             <div className="basis-3/4 mb-4">
               {selected.youtubeId ? (
@@ -222,7 +222,7 @@ export default function SermonPlayer() {
                   setSelected(null);
                   setPlayError(null);
                 }}
-                className="absolute bottom-1 right-1 px-4 py-2 bg-[#80989b] text-white rounded-lg flex-shrink-0 hover:bg-[#6d7f82] transition-colors "
+                className="absolute bottom-1 right-1 px-1 py-1 bg-[#80989b] text-white rounded-lg flex-shrink-0 hover:bg-[#6d7f82] transition-colors "
                 aria-label="关闭播放区"
               >
                 <X className="w-5 h-5 text-white" />
@@ -251,7 +251,7 @@ export default function SermonPlayer() {
         />
         <button
           onClick={() => setShowUpload(true)}
-          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          className="px-3 py-2 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded-lg"
         >
           上传资料
         </button>
