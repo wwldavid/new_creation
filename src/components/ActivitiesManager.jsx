@@ -78,7 +78,9 @@ export default function ActivitiesManager({
     <div className="max-w-6xl mx-auto flex flex-col gap-6 my-8">
       {/* 列表区 */}
       <section>
-        <h2 className="text-xl font-semibold mb-4">近期活动列表</h2>
+        <h2 className="ml-4 sm:ml-0 text-xl font-semibold mb-4">
+          近期活动列表
+        </h2>
         {activities.length === 0 ? (
           <p className="text-gray-600">暂无活动，快去创建吧！</p>
         ) : (
@@ -107,25 +109,25 @@ export default function ActivitiesManager({
 
                 {/* —— 行内密码验证框 —— */}
                 {authingId === act.id && (
-                  <div className="mt-2  flex gap-3 rounded">
+                  <div className="mt-20 sm:mt-2 flex flex-col sm:flex-row gap-3 rounded">
                     <input
                       type="password"
                       placeholder="请输入管理员密码"
-                      className="border px-3 py-1 rounded"
+                      className="border w-60 px-3 py-1 rounded"
                       value={passwordInput}
                       onChange={(e) => setPasswordInput(e.target.value)}
                     />
 
-                    <div>
+                    <div className="flex gap-2">
                       <button
                         onClick={() => confirmAuth(act)}
-                        className=" px-3 py-1 bg-green-600 text-white rounded"
+                        className="px-3 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
                       >
                         确认
                       </button>
                       <button
                         onClick={cancelAuth}
-                        className=" px-3 py-1 bg-gray-400 text-white rounded"
+                        className="px-3 py-1 bg-gray-400 hover:bg-[#165e83] text-white rounded"
                       >
                         取消
                       </button>

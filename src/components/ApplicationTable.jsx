@@ -127,8 +127,8 @@ export default function ApplicationTable({ data, activityId, refetch }) {
     }
   };
   return (
-    <div>
-      <table className="min-w-full text-center border-collapse">
+    <div className="w-full overflow-x-auto">
+      <table className="min-w-full table-auto whitespace-nowrap text-center border-collapse">
         <thead>
           <tr className="bg-gray-100">
             <th className="px-2 py-1 ">序号</th>
@@ -172,19 +172,19 @@ export default function ApplicationTable({ data, activityId, refetch }) {
               <td className="px-2 py-1">{app.status}</td>
               <td className="flex gap-3 justify-center px-2 py-1">
                 <button
-                  className="px-2 py-1 bg-[#69b076] text-white text-xs rounded hover:bg-[#6b7b6e]"
+                  className="px-2 bg-[#69b076] text-white text-xs rounded hover:bg-[#6b7b6e]"
                   onClick={() => handleAction(app, "view")}
                 >
                   查看
                 </button>
                 <button
-                  className="px-2 py-1 bg-[#2ca9e1] text-white text-xs rounded hover:bg-[#165e83]"
+                  className="px-2 bg-[#2ca9e1] text-white text-xs rounded hover:bg-[#165e83]"
                   onClick={() => handleAction(app, "edit")}
                 >
                   编辑
                 </button>
                 <button
-                  className="px-2 py-1 bg-[#fbd26d] text-white rounded hover:bg-[#ec6800] text-xs"
+                  className="px-2 bg-[#fbd26d] text-white rounded hover:bg-[#ec6800] text-xs"
                   onClick={() => handleAction(app, "delete")}
                 >
                   删除

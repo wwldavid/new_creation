@@ -74,62 +74,64 @@ export default function ManageModal({
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl">
-        <DialogHeader>
-          <DialogTitle>管理报名</DialogTitle>
-          {/* —— 增加一个表头 —— */}
-          <div className="grid grid-cols-6 gap-4 font-semibold border-b pb-2 mt-4">
-            <div>姓名</div>
-            <div>电话</div>
-            <div>邮箱</div>
-            <div>其它事项</div>
-            <div>上传资料</div>
-            <div>申请状态</div>
-          </div>
-        </DialogHeader>
-
-        {/* —— 列表区 —— */}
-        <div className="space-y-2 mt-2">
-          {data.map((app) => (
-            <div key={app.id} className="grid grid-cols-6 gap-4 items-center">
-              <div>{app.name}</div>
-              <div>{app.phone}</div>
-              <div>{app.email}</div>
-              <div>{app.other || "—"}</div>
-              <div>
-                {app.attachments && app.attachments.length > 0
-                  ? app.attachments.join(", ")
-                  : "—"}
-              </div>
-              <Select
-                value={statusMap[app.id]}
-                onValueChange={(val) => {
-                  setStatusMap((m) => ({ ...m, [app.id]: val }));
-                  updateStatus(app.id, val);
-                }}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="请选择" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="审核中">审核中</SelectItem>
-                  <SelectItem value="通过">通过</SelectItem>
-                  <SelectItem value="拒绝">拒绝</SelectItem>
-                </SelectContent>
-              </Select>
+        <div className="overflow-x-auto">
+          <DialogHeader>
+            <DialogTitle>管理报名</DialogTitle>
+            {/* —— 增加一个表头 —— */}
+            <div className="min-w-[700px] grid grid-cols-6 gap-4 font-semibold border-b pb-2 mt-4">
+              <div>姓名</div>
+              <div>电话</div>
+              <div>邮箱</div>
+              <div>其它事项</div>
+              <div>上传资料</div>
+              <div>申请状态</div>
             </div>
-          ))}
-        </div>
+          </DialogHeader>
 
-        {/* —— 底部操作按钮 —— */}
-        <DialogFooter className="mt-6 flex justify-between">
-          <Button variant="destructive" onClick={clearAll}>
-            清空列表
-          </Button>
-          <div className="space-x-2">
-            <Button onClick={exportCsv}>导出 CSV</Button>
-            <Button onClick={onClose}>关闭</Button>
+          {/* —— 列表区 —— */}
+          <div className="min-w-[700px] space-y-2 mt-2">
+            {data.map((app) => (
+              <div key={app.id} className="grid grid-cols-6 gap-4 items-center">
+                <div>{app.name}</div>
+                <div>{app.phone}</div>
+                <div>{app.email}</div>
+                <div>{app.other || "—"}</div>
+                <div>
+                  {app.attachments && app.attachments.length > 0
+                    ? app.attachments.join(", ")
+                    : "—"}
+                </div>
+                <Select
+                  value={statusMap[app.id]}
+                  onValueChange={(val) => {
+                    setStatusMap((m) => ({ ...m, [app.id]: val }));
+                    updateStatus(app.id, val);
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="请选择" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="审核中">审核中</SelectItem>
+                    <SelectItem value="通过">通过</SelectItem>
+                    <SelectItem value="拒绝">拒绝</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            ))}
           </div>
-        </DialogFooter>
+
+          {/* —— 底部操作按钮 —— */}
+          <DialogFooter className="mt-6 flex gap-2 flex-row">
+            <Button variant="destructive" onClick={clearAll}>
+              清空列表
+            </Button>
+            <div className="space-x-2">
+              <Button onClick={exportCsv}>导出 CSV</Button>
+              <Button onClick={onClose}>关闭</Button>
+            </div>
+          </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );

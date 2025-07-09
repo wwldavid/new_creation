@@ -15,7 +15,7 @@ export default function ActivityList({ activities = [] }) {
 
           {/* 活动详情项 */}
           <div className=" space-y-2">
-            <div className="flex gap-6">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
               <div>
                 <span className="font-semibold">开始时间：</span>
                 {new Date(act.startAt).toLocaleString()}
@@ -25,7 +25,7 @@ export default function ActivityList({ activities = [] }) {
                 {new Date(act.endAt).toLocaleString()}
               </div>
             </div>
-            <div className="flex gap-6">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
               <div>
                 <span className="font-semibold">组织者：</span>
                 {act.organizer}
@@ -43,12 +43,12 @@ export default function ActivityList({ activities = [] }) {
             {/* 宣传图片 */}
             {act.promoImage && (
               <div>
-                <div className="relative w-full h-64 my-2">
+                <div className="relative w-full h-64 my-2 overflow-hidden">
                   <Image
                     src={`${base}/${act.promoImage}`}
                     alt={`${act.name} 宣传图`}
                     fill
-                    className="object-cover rounded"
+                    className="object-contain object-left"
                   />
                 </div>
               </div>

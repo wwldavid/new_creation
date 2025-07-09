@@ -219,7 +219,7 @@ export default function ActivityCreator({
           />
         </div>
         {/* 时间范围 */}
-        <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <label className="block text-sm font-medium mb-1">开始时间</label>
             <input
