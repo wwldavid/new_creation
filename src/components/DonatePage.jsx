@@ -37,9 +37,9 @@ export default function DonatePage() {
   }, []);
 
   return (
-    <div className="max-w-[1141px] h-[815px] mx-auto flex gap-6 flex-col md:flex-row justify-center">
+    <div className="max-w-[1141px] w-full  mx-auto px-4 flex flex-col md:flex-row  md:gap-6 h-auto md:h-[815px] ">
       {/* 左侧 */}
-      <div className="md:w-[347px] h-[730px] relative bg-black rounded-lg overflow-hidden ">
+      <div className="w-full md:w-[347px] bg-black rounded-lg overflow-hidden relative h-auto md:h-[730px]">
         {/* 背景图 */}
         <AnimatePresence mode="sync">
           <motion.div
@@ -53,7 +53,7 @@ export default function DonatePage() {
           />
         </AnimatePresence>
         {/* 内容层 */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-between p-4">
+        <div className="relative z-10  flex flex-col items-center justify-between p-4 h-full">
           {/* 标题 */}
           <div className="w-[309px] h-[130px] flex mt-10  justify-center ">
             <h2 className="text-4xl font-bold text-[#b59959] leading-relaxed">
@@ -76,9 +76,9 @@ export default function DonatePage() {
       </div>
 
       {/* 右侧 */}
-      <div className=" md:w-[658px] h-[730px]  p-8 flex flex-col gap-32 ">
+      <div className="w-full md:w-[658px] h-auto md:h-[730px] p-4 md:p-8 flex flex-col gap-6 md:gap-32">
         {/* 奉献意义 */}
-        <div className="w-[583px] h-[228px] text-xl font-normal text-[#495859]">
+        <div className=" w-full text-base sm:text-xl font-normal text-[#495859] space-y-4">
           <p className="indent-[2em] mt-12 ">
             无论大小,每一笔奉献, 皆是上帝借着祂子民所成就的恩典记号。New
             Creation Life Ministries 所领受的金钱支持，
@@ -94,9 +94,9 @@ export default function DonatePage() {
           </p>
         </div>
         {/* 奉献信息 */}
-        <div className="w-[489px] h-[351px] mx-auto text-[#016735] font-normal bg-[#ece1d1] p-8 rounded-md ">
-          <h3 className="text-2xl text-center mt-3 ">奉献信息</h3>
-          <div className="flex flex-col gap-2 text-base">
+        <div className="w-full bg-[#ece1d1] text-[#016735] font-normal p-4 sm:p-8 sm:w-[489px] h-auto sm:h-[351px] mx-auto  rounded-md ">
+          <h3 className="text-xl sm:text-2xl text-center mt-3 ">奉献信息</h3>
+          <div className="flex flex-col gap-2 text-sm sm:text-base text-[#495859]">
             <p>
               <span>支票奉献：</span>
               <br />
