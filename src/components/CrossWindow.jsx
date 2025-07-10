@@ -9,7 +9,7 @@ export default function CrossWindow() {
   return (
     <div className="relative flex flex-col bg-[#f8f4e6] w-full min-h-screen p-4 md:p-12 gap-8 md:gap-40">
       {/* 标题 */}
-      <div className="absolute top-4 md:top-16 left-0 right-0 px-4 md:left-1/2 md:right-auto md:px-0 md:transform md:-translate-x-1/2 z-50">
+      <div className="absolute top-4 md:top-16 left-0 right-0 px-4 md:left-1/2 md:right-auto md:px-0 md:transform md:-translate-x-1/2 z-40">
         <h1 className="text-lg md:text-2xl lg:text-4xl font-bold text-[#647a5c] drop-shadow-lg italic text-center md:text-left ">
           <span>Welcome to New Creation Life Ministries,</span>
           <br />
