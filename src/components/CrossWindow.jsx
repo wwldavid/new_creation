@@ -20,7 +20,7 @@ export default function CrossWindow() {
       {/* 主要内容区域 */}
       <div className="flex flex-col md:flex-row gap-4 md:gap-40 mt-16 md:mt-0">
         {/* 圆形部分 */}
-        <div className="relative self-center md:self-start">
+        <div className="hidden md:block relative self-center md:self-start">
           {/* 背景轮播图 */}
           <div className="circle-slider absolute top-0 left-0 w-full h-full z-0 rounded-full overflow-hidden flex items-end">
             <div className="slider-content w-full">
