@@ -23,12 +23,10 @@ export default function Slider() {
   return (
     <div className="mx-auto max-w-[895px] w-full">
       <Swiper
-        modules={[Autoplay, Navigation, Pagination]}
+        modules={[Autoplay]}
         // effect="fade"
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         loop={true}
-        navigation
-        pagination={{ clickable: true }}
         speed={5000}
       >
         {banners.map((src, index) => (
@@ -46,23 +44,6 @@ export default function Slider() {
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {/* ✅ 自定义 Swiper 样式 */}
-      <style jsx global>{`
-        .swiper-button-prev,
-        .swiper-button-next {
-          color: #d6e9ca;
-          z-index: 10 !important;
-        }
-
-        .swiper-pagination-bullet {
-          background-color: white;
-        }
-
-        .swiper-pagination-bullet-active {
-          background-color: #fbd26b;
-        }
-      `}</style>
     </div>
   );
 }
