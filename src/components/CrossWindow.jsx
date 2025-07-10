@@ -60,61 +60,6 @@ export default function CrossWindow() {
           </div>
         </div>
 
-        <div className="block md:hidden relative flex-shrink-0 self-center lg:self-start">
-          {/* 背景轮播图 */}
-          <div
-            className="absolute top-0 left-0 w-full h-full z-0 rounded-full overflow-hidden flex items-end"
-            style={{
-              width: "min(85vw, 400px)", // 手机端更小
-              aspectRatio: "1 / 1",
-            }}
-          >
-            <div className="w-full scale-110 md:scale-125 -translate-y-3 md:-translate-y-6">
-              <Slider />
-            </div>
-          </div>
-
-          {/* 圆形网格层 */}
-          <div
-            className="grid rounded-full overflow-hidden relative z-10"
-            style={{
-              width: "min(85vw, 400px)", // 手机端更小，最大400px
-              aspectRatio: "1 / 1",
-              display: "grid",
-              gridTemplateRows: "1fr 40px 5fr", // 手机端更小的交叉线
-              gridTemplateColumns: "2fr 40px 3fr",
-            }}
-          >
-            {/* 四个格子 */}
-            <div
-              className="bg-[#c4d3d5]"
-              style={{ gridRow: 1, gridColumn: 1 }}
-            />
-            <div
-              className="bg-[#c4d3d5]"
-              style={{ gridRow: 1, gridColumn: 3 }}
-            />
-            <div
-              className="bg-transparent"
-              style={{ gridRow: 3, gridColumn: 1 }}
-            />
-            <div
-              className="bg-transparent"
-              style={{ gridRow: 3, gridColumn: 3 }}
-            />
-
-            {/* 中间两条交叉线为白色 */}
-            <div
-              className="bg-[#f8f4e6]"
-              style={{ gridRow: 2, gridColumn: "1 / 4" }}
-            />
-            <div
-              className="bg-[#f8f4e6]/50"
-              style={{ gridRow: "1 / 4", gridColumn: 2 }}
-            />
-          </div>
-        </div>
-
         {/* 新闻滚动条 */}
         <div className="w-full flex justify-center pt-8 md:pt-24">
           <div className="w-full max-w-sm md:max-w-none">
