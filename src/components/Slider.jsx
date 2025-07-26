@@ -1,49 +1,49 @@
 "use client";
 
-import "swiper/css";
-// import "swiper/css/effect-fade";
-// import "swiper/css/autoplay";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
+import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 
 const banners = [
   "/images/event1.jpg",
   "/images/event2.jpg",
+  "/images/event3.jpg",
+  "/images/event4.jpg",
   "/images/event5.jpg",
   "/images/event6.jpg",
-  "/images/event7.jpg",
-  "/images/event8.jpg",
 ];
 
 export default function Slider() {
+  const [idx, setIdx] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setIdx((prev) => (prev + 1) % banners.length);
+    }, 10000);
+    return () => clearInterval(t);
+  }, []);
+
   return (
-    <div className="mx-auto max-w-[895px] w-full">
-      <Swiper
-        modules={[Autoplay]}
-        // effect="fade"
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
-        loop={true}
-        speed={5000}
-      >
-        {banners.map((src, index) => (
-          <SwiperSlide key={index}>
-            <div className="relative w-full aspect-[891/593]">
-              <Image
-                src={src}
-                alt={`Banner ${index + 1}`}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 768px, 895px"
-                className="object-cover"
-                priority={index === 0}
-              />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+    <div className="relative w-full aspect-[944/629] overflow-hidden bg-black rounded-xl">
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={banners[idx]} // 关键：让 framer-motion 知道当前是哪张
+          className="absolute inset-0 w-full h-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 6 }}
+        >
+          <Image
+            src={banners[idx]}
+            alt={`Banner ${idx + 1}`}
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 768px, 944px"
+            priority
+          />
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

@@ -67,7 +67,7 @@ export default function NewsTicker() {
   return (
     <div>
       <div
-        className="w-60 h-60  shadow-md overflow-hidden relative ml-14 mt-4 bg-cover bg-center bg-no-repeat bg-[#e0ebaf]/50"
+        className="w-60 h-60  shadow-md overflow-hidden relative mx-auto bg-cover bg-center bg-no-repeat bg-[#e0ebaf]/50"
         style={{ backgroundImage: "url('/frame.png')" }}
       >
         <div className=" text-center py-5">
@@ -91,7 +91,7 @@ export default function NewsTicker() {
         ))}
       </div>
       <div
-        className="w-60 h-60  shadow-md overflow-hidden relative ml-14 mt-4 bg-cover bg-center bg-no-repeat bg-[#e6b422]/30"
+        className="w-60 h-60  shadow-md overflow-hidden relative mx-auto mt-4 bg-cover bg-center bg-no-repeat bg-[#e6b422]/30"
         style={{ backgroundImage: "url('/frame.png')" }}
       >
         <div className=" text-center py-5">
@@ -115,7 +115,7 @@ export default function NewsTicker() {
         ))}
       </div>
       <div
-        className="w-60 h-60  shadow-md overflow-hidden relative ml-14 mt-4 bg-cover bg-center bg-no-repeat bg-[#bce2e8]/30"
+        className="w-60 h-60  shadow-md overflow-hidden relative mx-auto mt-4 bg-cover bg-center bg-no-repeat bg-[#bce2e8]/30"
         style={{ backgroundImage: "url('/frame.png')" }}
       >
         <div className=" text-center ">
