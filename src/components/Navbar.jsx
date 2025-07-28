@@ -3,11 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { IoClose } from "react-icons/io5"; // 关闭图标
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const pathname = usePathname();
   const navLinks = [
     { href: "/", label: "Home" },
 
@@ -16,6 +18,8 @@ export default function Navbar() {
     { href: "/event", label: "Events" },
     { href: "/connect", label: "Connect" },
     { href: "/donate", label: "Donate" },
+    { href: "/language", label: "En/中文" },
+    { href: "/admin", label: "Admin Panel" },
   ];
 
   return (
@@ -48,12 +52,27 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex space-x-8 text-white text-2xl mt-6">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {link.label}
-            </Link>
-          ))}
+        <div className="hidden md:flex space-x-8 mt-6">
+          {navLinks.map(({ href, label }) => {
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`
+                text-xl 
+                transition-colors 
+                ${
+                  isActive
+                    ? "text-white bg-[#b59959] px-4 border border-[#b59959] rounded-2xl"
+                    : "text-white bg-[#495859]/50 px-4 border border-[#495859] rounded-2xl shadow-md shadow-[#495859] hover:bg-[#b59959]"
+                }
+                `}
+              >
+                {label}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Mobile Menu Button */}
