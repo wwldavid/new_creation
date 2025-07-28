@@ -1,9 +1,13 @@
 "use client";
+import { useContext } from "react";
+import { AdminContext } from "@/context/AdminContext";
+
 import { useEffect, useRef, useState } from "react";
 import { PlayCircle, ChevronLeft, ChevronRight, X } from "lucide-react";
-import Image from "next/image";
 
 export default function SermonPlayer() {
+  const { isAdmin } = useContext(AdminContext);
+
   const [sermons, setSermons] = useState([]);
   const [total, setTotal] = useState(0);
   const [q, setQ] = useState("");
@@ -249,12 +253,14 @@ export default function SermonPlayer() {
           onKeyDown={(e) => e.key === "Enter" && fetchData()}
           className="border px-3 py-2 rounded-lg flex-1 mr-4"
         />
-        <button
-          onClick={() => setShowUpload(true)}
-          className="px-3 py-2 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded-lg"
-        >
-          上传资料
-        </button>
+        {isAdmin && (
+          <button
+            onClick={() => setShowUpload(true)}
+            className="px-3 py-2 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded-lg"
+          >
+            上传资料
+          </button>
+        )}
       </div>
 
       {/* 列表 */}
@@ -272,8 +278,6 @@ export default function SermonPlayer() {
                 "YouTube ID",
                 "Desc",
                 "Note",
-                "edit",
-                "delete",
               ].map((h) => (
                 <th
                   key={h}
@@ -282,6 +286,16 @@ export default function SermonPlayer() {
                   {h}
                 </th>
               ))}
+              {isAdmin && (
+                <>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                    edit
+                  </th>
+                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
+                    delete
+                  </th>
+                </>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -330,26 +344,30 @@ export default function SermonPlayer() {
                   </div>
                 </td>
                 <td className="px-4 py-2">{s.note || "-"}</td>
-                <td className="px-4 py-2">
-                  <button
-                    className="px-2 bg-[#2ca9e1] text-white rounded hover:bg-[#165e83]"
-                    onClick={() => {
-                      setPwModal({ open: true, mode: "edit", sermon: s });
-                    }}
-                  >
-                    Edit
-                  </button>
-                </td>
-                <td className="px-4 py-2">
-                  <button
-                    className="px-2 bg-[#fbd26b] text-white rounded hover:bg-[#ec6800]"
-                    onClick={() => {
-                      setPwModal({ open: true, mode: "delete", sermon: s });
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+                {isAdmin && (
+                  <>
+                    <td className="px-4 py-2">
+                      <button
+                        className="px-2 bg-[#2ca9e1] text-white rounded hover:bg-[#165e83]"
+                        onClick={() => {
+                          setPwModal({ open: true, mode: "edit", sermon: s });
+                        }}
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td className="px-4 py-2">
+                      <button
+                        className="px-2 bg-[#fbd26b] text-white rounded hover:bg-[#ec6800]"
+                        onClick={() => {
+                          setPwModal({ open: true, mode: "delete", sermon: s });
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>

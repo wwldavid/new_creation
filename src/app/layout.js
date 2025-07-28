@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "@/components/Footer";
+import { AdminProvider } from "@/context/AdminContext";
 
 export const metadata = {
   title: "New Creation Life Ministries",
@@ -11,9 +12,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        {children}
-        <Footer />
+        <AdminProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </AdminProvider>
       </body>
     </html>
   );

@@ -1,13 +1,19 @@
 "use client";
 
+import { useContext, useState } from "react";
+import { AdminContext } from "@/context/AdminContext";
+import { useRouter } from "next/navigation";
+
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+
 import { usePathname } from "next/navigation";
-import { IoClose } from "react-icons/io5"; // 关闭图标
+import { IoClose } from "react-icons/io5";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { isAdmin, logout } = useContext(AdminContext);
+  const router = useRouter();
 
   const pathname = usePathname();
   const navLinks = [
@@ -21,6 +27,9 @@ export default function Navbar() {
     { href: "/language", label: "En/中文" },
     { href: "/admin", label: "Admin Panel" },
   ];
+  function handleLogout() {
+    logout();
+  }
 
   return (
     <nav
@@ -55,6 +64,34 @@ export default function Navbar() {
         <div className="hidden md:flex space-x-8 mt-6">
           {navLinks.map(({ href, label }) => {
             const isActive = pathname === href;
+
+            if (href === "/admin") {
+              return isAdmin ? (
+                <button
+                  key={href}
+                  onClick={handleLogout}
+                  className="text-xl text-white bg-[#b59959] px-4 border border-[#b59959] rounded-2xl shadow-md shadow-[#495859] "
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`
+                    text-xl transition-colors
+                    ${
+                      isActive
+                        ? "text-white bg-[#b59959] px-4 border border-[#b59959] rounded-2xl"
+                        : "text-white bg-[#495859]/50 px-4 border border-[#495859] rounded-2xl shadow-md shadow-[#495859] hover:bg-[#b59959]"
+                    }
+                  `}
+                >
+                  {label}
+                </Link>
+              );
+            }
+
             return (
               <Link
                 key={href}
@@ -97,15 +134,32 @@ export default function Navbar() {
         </div>
 
         <div className="flex flex-col space-y-6 px-8 text-xl mt-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map(({ href, label }) => {
+            if (href === "/admin") {
+              return isAdmin ? (
+                <button
+                  key={href}
+                  onClick={() => {
+                    handleLogout();
+                    setIsOpen(false);
+                  }}
+                  className="…"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link key={href} href={href} onClick={() => setIsOpen(false)}>
+                  {label}
+                </Link>
+              );
+            }
+
+            return (
+              <Link key={href} href={href} onClick={() => setIsOpen(false)}>
+                {label}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </nav>
