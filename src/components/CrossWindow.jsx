@@ -45,7 +45,7 @@ export default function CrossWindow() {
             <Slider />
             <button
               onClick={toggleAudio}
-              className="absolute bottom-3 left-3 z-50 p-2 bg-[#495859] text-white bg-opacity-80 rounded-full shadow hover:bg-opacity-100 transition"
+              className="absolute bottom-3 left-3 z-25 p-2 bg-[#495859] text-white bg-opacity-80 rounded-full shadow hover:bg-opacity-100 transition"
               aria-label={isPlaying ? "暂停背景音乐" : "播放背景音乐"}
             >
               {isPlaying ? "Mute music 🔊" : "Play music 🔇"}
