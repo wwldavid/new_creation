@@ -26,7 +26,7 @@ const MESSAGES = {
 };
 
 export default function CrossWindow() {
-  const { lang } = useParams(); // 拿到当前路由里的 [lang]
+  const { lang } = useParams();
   const t = MESSAGES[lang] || MESSAGES.en;
 
   const audioRef = useRef(null);

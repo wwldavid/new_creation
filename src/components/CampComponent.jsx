@@ -1,8 +1,71 @@
 import React from "react";
 import Image from "next/image";
 
-const CampComponent = () => {
-  const camps = [
+const HEADER = {
+  en: {
+    title: "Discipleship Training Camps",
+    desc: "Through systematic discipleship training, we help believers experience life transformation and renewal in Christ, living out the true life of Christ.",
+  },
+  zh: {
+    title: "门徒训练营会",
+    desc: "通过系统性的门徒训练，帮助信徒在基督里得到生命的转化和更新，活出真正的基督生命",
+  },
+};
+const CAMPS = {
+  en: [
+    {
+      id: 1,
+      title: `Camp 1: Discipleship “Life in Christ”`,
+      image: "/camps/event1.jpg",
+      content: `Many Christians have believed for a long time and know the truth clearly, yet cannot truly live it out.
+
+Although they know John 8:32 says “you will know the truth, and the truth will set you free,” they don’t feel that freedom in practice. In other words, though we have new life by faith in Christ, we still act according to our old values.
+
+This session “Life in Christ” focuses on John 8:31–32: 
+“Jesus said to the Jews who had believed him, ‘If you abide in my word, you are truly my disciples; and you will know the truth, and the truth will set you free.’”
+
+It’s a transformation from worldly values to eternal values, so believers experience renewal and transformation in Christ.`,
+    },
+    {
+      id: 2,
+      title: `Camp 2: Discipleship “The New Creation”`,
+      image: "/camps/event2.jpg",
+      content: `2 Corinthians 5:17 says, “Therefore, if anyone is in Christ, he is a new creation. The old has passed away; behold, the new has come.”
+
+This training builds on “Life in Christ” to show that we are new creations—our old selves are gone.
+
+Romans 6:4: “We were buried therefore with him by baptism into death, so that as Christ was raised from the dead…we too might walk in newness of life.”
+
+And Romans 6:14: “For sin will have no dominion over you, since you are not under law but under grace.”
+`,
+    },
+    {
+      id: 3,
+      title: `Camp 3: Discipleship “Church and Me”`,
+      image: "/camps/event3.jpg",
+      content: `This third camp is for believers already active in church life, exploring “Church and Me.”
+
+In the body of Christ we should live in joy, glory, and unity. Yet conflicts, misunderstandings, and divisions can hurt the body.
+
+We will rediscover the church’s earthly mission, learn to live as new creations in community, and experience the meaning of loving one another.`,
+    },
+    {
+      id: 4,
+      title: `Camp 4: Discipleship “Receiving God’s Word”`,
+      image: "/camps/event4.jpg",
+      content: `The fourth camp trains us to read Scripture with a resurrected life, using context-driven methods so that God’s Word transforms us.
+
+Key questions we’ll discuss:
+- Which Bible translation should I choose?
+- How much background study is necessary?
+- Do I need to read entire books or scholarly works first?
+- How do I discern proper interpretation when opinions differ?
+- How do I apply Scripture when it challenges my thinking?
+
+Only a resurrected life can truly receive God’s Word so that “the unfolding of your words gives light; it imparts understanding to the simple.” (Psalm 119:130)`,
+    },
+  ],
+  zh: [
     {
       id: 1,
       title: "营会第一期 门徒训练《基督里的人生》",
@@ -18,35 +81,30 @@ const CampComponent = () => {
     },
     {
       id: 2,
-      title: "营会 第二期 门徒训练《新造的人》",
+      title: "营会第二期 门徒训练《新造的人》",
       image: "/camps/event2.jpg",
       content: `哥林多后书5章17节说"若有人在基督裡,他就是新造的人,旧事已过,都变成新的了".
 
 这期的门徒训练是接续上期的基督里的人生,
-告诉我们：我们是一群新造的人.是已经改变了的人.旧事都已经过去了，在基督里我们都是新人.
+告诉我们：我们是一群新造的人。旧事都已经过去，在基督里我们都是新人。
 
-罗马书6章4节:"所以我们藉着洗礼归入死, 和他一同埋葬,
-原是叫我们一举一动有新生的样式, 像基督藉着父的荣耀从死里复活一样".
+罗马书6章4节:"所以我们藉着洗礼归入死,和他一同埋葬,原是叫我们一举一动有新生的样式,像基督藉着父的荣耀从死里复活一样"。
 
-罗马书6章14节又说 "罪必不能作你们的主,因你们不在律法之下,乃在恩典之下."
-所以基督里的人生是可以一举一动有新生样式有好行为的人生。
-
-本期的营会以罗马书为基础, 告诉我们神给了我们一个新造的生命代表什么,
-对我们又是什么意义.诚邀弟兄姐妹一起来明白神对门徒的心意和意义。`,
+罗马书6章14节又说 "罪必不能作你们的主,因你们不在律法之下,乃在恩典之下."`,
     },
     {
       id: 3,
-      title: "营会 第三期 门徒训练《我与教会》",
+      title: "营会第三期 门徒训练《我与教会》",
       image: "/camps/event3.jpg",
       content: `这是基督新人事工"门训"信息里的第三个营会，是特别与已经信主并且有教会生活的弟兄姐妹们一起来探讨"我与教会"的主题。
 
-在教会里我们应该是一个喜乐，荣耀和合一的生活，却常会因遇到这样或那样的一些问题，导致不能合一甚至离开教会，又或因服侍受伤，因爱心被误会，因意见不同而行同陌路，本是同工却变成彼此攻击的对象。
+在教会里我们应该是一个喜乐、荣耀和合一的生活，却常会因遇到这样或那样的一些问题，导致不能合一甚至离开教会，又或因服侍受伤、因爱心被误会、因意见不同而行同陌路，本是同工却变成彼此攻击的对象。
 
 面对这些现象，我们将在营会里重新认识教会在地上的荣耀使命，并一同以新人的生命学习如何活在教会里，也一同感受肢体生活的意义，并且活出爱人更爱神的教会生活。`,
     },
     {
       id: 4,
-      title: "营会 第四期 门徒训练《领受神的话》",
+      title: "营会第四期 门徒训练《领受神的话》",
       image: "/camps/event4.jpg",
       content: `是基督新人事工门徒培训的第四个营会，操练以重生的生命来研读神的话语，以语文（上下文）的方式读经，让神的话改变我们，好活出基督的生命。
 
@@ -73,11 +131,20 @@ const CampComponent = () => {
 营会将探讨上述问题。
 
 只有以一个重生的生命，才能领受神的话，让神的话在自己身上有作用。
-"你的言语一解开，就发出亮光，使愚人通达"。
-
-（诗篇119:130）`,
+"你的言语一解开，就发出亮光，使愚人通达"。（诗篇119:130）`,
     },
-  ];
+  ],
+};
+
+const FOOTER = {
+  en: "Discipleship Training Camps • New-Creation’s Life Ministries",
+  zh: "基督新人事工 门徒训练营会",
+};
+
+const CampComponent = ({ lang }) => {
+  const header = HEADER[lang] || HEADER.en;
+  const camps = CAMPS[lang] || CAMPS.en;
+  const footer = FOOTER[lang] || FOOTER.en;
 
   return (
     <div>
@@ -87,13 +154,13 @@ const CampComponent = () => {
           className="text-4xl md:text-5xl font-bold mb-6"
           style={{ color: "#495859" }}
         >
-          门徒训练营会
+          {header.title}
         </h1>
         <p
           className="text-lg md:text-xl max-w-4xl mx-auto leading-relaxed font-medium"
           style={{ color: "#647a5c" }}
         >
-          通过系统性的门徒训练，帮助信徒在基督里的得到生命的转化和更新，活出真正的基督生命
+          {header.desc}
         </p>
       </div>
 
@@ -169,7 +236,7 @@ const CampComponent = () => {
           style={{ backgroundColor: "#b59959" }}
         ></div>
         <p className="text-sm font-medium" style={{ color: "#647a5c" }}>
-          基督新人事工 门徒训练营会
+          {footer}
         </p>
       </div>
     </div>
