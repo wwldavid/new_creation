@@ -21,15 +21,18 @@ export default function Navbar() {
   const basePath = pathname.replace(/^\/(en|zh)/, "");
 
   const navLinks = [
-    { href: "/", label: "Home" },
+    { href: "/", label: currentLang === "zh" ? "主页" : "Home" },
 
-    { href: "/camp", label: "Training Camp" },
-    { href: "/sermons", label: "Sermons" },
-    { href: "/event", label: "Events" },
-    { href: "/connect", label: "Connect" },
-    { href: "/donate", label: "Donate" },
+    { href: "/camp", label: currentLang === "zh" ? "训练营" : "Training Camp" },
+    { href: "/sermons", label: currentLang === "zh" ? "讲道" : "Sermons" },
+    { href: "/event", label: currentLang === "zh" ? "活动" : "Events" },
+    { href: "/connect", label: currentLang === "zh" ? "联络" : "Connect" },
+    { href: "/donate", label: currentLang === "zh" ? "奉献" : "Donate" },
     { href: "/language", label: currentLang === "en" ? "中文" : "English" },
-    { href: "/admin", label: "Admin Panel" },
+    {
+      href: "/admin",
+      label: currentLang === "zh" ? "管理入口" : "Admin Panel",
+    },
   ];
   function handleLogout() {
     logout();
@@ -98,7 +101,7 @@ export default function Navbar() {
                   onClick={handleLogout}
                   className="text-xl text-white bg-[#b59959] px-4 border border-[#b59959] rounded-2xl shadow-md shadow-[#495859] "
                 >
-                  Logout
+                  {currentLang === "zh" ? "登出" : "Logout"}
                 </button>
               ) : (
                 <Link
