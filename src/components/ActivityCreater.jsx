@@ -2,12 +2,13 @@
 import { useState } from "react";
 
 export default function ActivityCreator({
+  lang,
   existing,
   skipAuth = false,
   onSuccess,
 }) {
   const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
-  const initialMode = existing && skipAuth ? "form" : "idle"; // 其它情况保持原逻辑
+  const initialMode = existing && skipAuth ? "form" : "idle";
   const [mode, setMode] = useState(initialMode);
 
   const [passwordInput, setPasswordInput] = useState("");
@@ -142,7 +143,7 @@ export default function ActivityCreator({
           onClick={() => setMode("auth")}
           className="px-2 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
         >
-          开始创建
+          {lang === "zh" ? "开始创建" : "Get Started"}
         </button>
       );
     }

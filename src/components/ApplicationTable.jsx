@@ -23,7 +23,7 @@ function getPwdTitle(mode) {
   }
 }
 
-export default function ApplicationTable({ data, activityId, refetch }) {
+export default function ApplicationTable({ lang, data, activityId, refetch }) {
   const [selected, setSelected] = useState(null);
   const [mode, setMode] = useState(null); // "view"|"edit"|"delete"|"viewAll"|"manage"
 
@@ -203,13 +203,19 @@ export default function ApplicationTable({ data, activityId, refetch }) {
           }`}
           onClick={handleToggleShow}
         >
-          {showAll ? "隐藏信息" : "查看全部信息"}
+          {lang === "zh"
+            ? showAll
+              ? "隐藏信息"
+              : "查看全部信息"
+            : showAll
+            ? "Hide Info"
+            : "View All Info"}
         </button>
         <button
           className="px-2 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
           onClick={() => handleAction(null, "manage")}
         >
-          管理
+          {lang === "zh" ? "管理" : "Manage"}
         </button>
       </div>
 

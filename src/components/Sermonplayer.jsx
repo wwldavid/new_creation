@@ -5,7 +5,7 @@ import { AdminContext } from "@/context/AdminContext";
 import { useEffect, useRef, useState } from "react";
 import { PlayCircle, ChevronLeft, ChevronRight, X } from "lucide-react";
 
-export default function SermonPlayer() {
+export default function SermonPlayer({ lang }) {
   const { isAdmin } = useContext(AdminContext);
 
   const [sermons, setSermons] = useState([]);
@@ -235,7 +235,9 @@ export default function SermonPlayer() {
           </div>
         ) : (
           <div className="text-center text-gray-500 py-8">
-            请选择一条媒体播放
+            {lang === "zh"
+              ? "请选择一条媒体播放"
+              : "Please select a media file to play"}
           </div>
         )}
       </div>
@@ -258,7 +260,7 @@ export default function SermonPlayer() {
             onClick={() => setShowUpload(true)}
             className="px-3 py-2 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded-lg"
           >
-            上传资料
+            {lang === "zh" ? "上传资料" : "Upload Files"}
           </button>
         )}
       </div>
@@ -289,10 +291,10 @@ export default function SermonPlayer() {
               {isAdmin && (
                 <>
                   <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                    edit
+                    {lang === "zh" ? "编辑" : "edit"}
                   </th>
                   <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                    delete
+                    {lang === "zh" ? "删除" : "delete"}
                   </th>
                 </>
               )}

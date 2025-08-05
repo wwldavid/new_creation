@@ -6,15 +6,16 @@ import ActivityList from "./ActivityList";
 import ApplicationForm from "./ApplicationForm";
 
 export default function ActivitiesManager({
+  lang,
   showApplicationForm = false,
   onApplicationSuccess,
 }) {
   const [activities, setActivities] = useState([]);
-  const [editing, setEditing] = useState(null); // 要编辑的活动
+  const [editing, setEditing] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  const [authingId, setAuthingId] = useState(null); // 正在验证密码的 activity.id
-  const [authAction, setAuthAction] = useState(null); // "edit" 或 "delete"
+  const [authingId, setAuthingId] = useState(null);
+  const [authAction, setAuthAction] = useState(null);
   const [passwordInput, setPasswordInput] = useState("");
 
   const fetchActivities = useCallback(async () => {
@@ -36,7 +37,7 @@ export default function ActivitiesManager({
   // 点击“编辑”先进入验证流程
   const startAuth = (act, action) => {
     setAuthingId(act.id);
-    setAuthAction(action); // "edit" 或 "delete"
+    setAuthAction(action);
     setPasswordInput("");
   };
 
@@ -79,7 +80,7 @@ export default function ActivitiesManager({
       {/* 列表区 */}
       <section>
         <h2 className="ml-4 sm:ml-0 text-xl font-semibold mb-4">
-          近期活动列表
+          {lang === "zh" ? "近期活动列表" : "List of Recent Activities"}
         </h2>
         {activities.length === 0 ? (
           <p className="text-gray-600">暂无活动，快去创建吧！</p>
@@ -90,20 +91,20 @@ export default function ActivitiesManager({
                 key={act.id}
                 className="relative rounded p-4 bg-white/50 shadow"
               >
-                <ActivityList activities={[act]} />
+                <ActivityList lang={lang} activities={[act]} />
 
                 <div className="absolute bottom-4 right-4 flex space-x-2">
                   <button
                     onClick={() => startAuth(act, "edit")}
                     className="px-3 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
                   >
-                    编辑
+                    {lang === "zh" ? "编辑" : "Edit"}
                   </button>
                   <button
                     onClick={() => startAuth(act, "delete")}
                     className="px-3 py-1 bg-[#fbd26d] hover:bg-[#ec6800] text-white rounded"
                   >
-                    删除
+                    {lang === "zh" ? "删除" : "Delete"}
                   </button>
                 </div>
 
@@ -123,13 +124,13 @@ export default function ActivitiesManager({
                         onClick={() => confirmAuth(act)}
                         className="px-3 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
                       >
-                        确认
+                        {lang === "zh" ? "确认" : "Confirm"}
                       </button>
                       <button
                         onClick={cancelAuth}
                         className="px-3 py-1 bg-gray-400 hover:bg-[#165e83] text-white rounded"
                       >
-                        取消
+                        {lang === "zh" ? "取消 " : "Cancel"}
                       </button>
                     </div>
                   </div>
@@ -162,14 +163,18 @@ export default function ActivitiesManager({
 
       {/* 创建区 */}
       <section className="rounded p-4 bg-white/50 shadow">
-        <h2 className="text-xl font-semibold mb-4">创建新活动</h2>
-        <ActivityCreator onSuccess={handleSuccess} />
+        <h2 className="text-xl font-semibold mb-4">
+          {" "}
+          {lang === "zh" ? "创建新活动" : "Create New Activities"}
+        </h2>
+        <ActivityCreator lang={lang} onSuccess={handleSuccess} />
       </section>
 
       {/* 报名区（可选） */}
       {showApplicationForm && activities[0] && (
         <section>
           <ApplicationForm
+            lang={lang}
             activityId={activities[0].id}
             onSuccess={() => {
               handleSuccess();

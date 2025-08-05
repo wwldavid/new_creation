@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-export default function Guestbook() {
+export default function Guestbook({ lang }) {
   const [entries, setEntries] = useState([]);
   const [content, setContent] = useState("");
   const [pw, setPw] = useState("");
@@ -85,7 +85,9 @@ export default function Guestbook() {
       {/*list of notes*/}
       <div className="rounded max-h-80 overflow-y-auto mb-4 space-y-4">
         {entries.length === 0 ? (
-          <p className="text-gray-500 text-center">暂无留言</p>
+          <p className="text-gray-500 text-center">
+            {lang === "zh" ? "暂无留言" : "No one has left a message yet."}
+          </p>
         ) : (
           entries.map((e) => (
             <div key={e.id} className="mb-3 bg-white p-3 w-full">
@@ -101,7 +103,7 @@ export default function Guestbook() {
                       setContent(e.content);
                     }}
                   >
-                    编辑
+                    {lang === "zh" ? "编辑" : "edit"}
                   </button>
                   <button
                     className="px-1 bg-[#fbd26d] text-white rounded hover:bg-[#ec6800] text-xs"
@@ -112,7 +114,7 @@ export default function Guestbook() {
                       setShowDeleteModal(true);
                     }}
                   >
-                    删除
+                    {lang === "zh" ? "删除" : "delete"}
                   </button>
                 </div>
               </div>
@@ -126,7 +128,11 @@ export default function Guestbook() {
       <textarea
         rows={4}
         className="w-full border p-2 rounded mb-2 mt-8"
-        placeholder="写下你的留言或故事..."
+        placeholder={
+          lang === "zh"
+            ? "写下你的留言或故事..."
+            : "Write your message or story…"
+        }
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
@@ -134,7 +140,11 @@ export default function Guestbook() {
       <input
         type="password"
         className="w-full border p-2 rounded mb-2"
-        placeholder="设置/输入你的留言密码（编辑/删除时需要）"
+        placeholder={
+          lang === "zh"
+            ? "设置/输入你的留言密码（编辑/删除时需要）"
+            : "Create or enter a password for your message (needed to edit or delete it)."
+        }
         value={pw}
         onChange={(e) => setPw(e.target.value)}
       />
@@ -143,7 +153,13 @@ export default function Guestbook() {
         onClick={handleSubmit}
         disabled={!content || !pw}
       >
-        {editingId ? "更新留言" : "提交留言"}
+        {lang === "zh"
+          ? editingId
+            ? "更新留言"
+            : "提交留言"
+          : editingId
+          ? "Update"
+          : "Submit"}
       </button>
 
       {/*admin clear all */}
@@ -151,7 +167,11 @@ export default function Guestbook() {
         <input
           type="password"
           className="w-full border p-2 rounded mb-2"
-          placeholder="管理员密码(清空所有留言)"
+          placeholder={
+            lang === "zh"
+              ? "管理员密码(清空所有留言)"
+              : "Admin Password (to clear all messages)"
+          }
           value={adminPw}
           onChange={(e) => setAdminPw(e.target.value)}
         />
@@ -160,7 +180,7 @@ export default function Guestbook() {
           onClick={clearAll}
           disabled={!adminPw}
         >
-          清空所有留言
+          {lang === "zh" ? "清空所有留言" : "Clear all"}
         </button>
       </div>
 
@@ -189,7 +209,7 @@ export default function Guestbook() {
                 className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
                 onClick={() => setShowDeleteModal(false)}
               >
-                取消
+                {lang === "zh" ? "取消" : "cancel"}
               </button>
               <button
                 className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
@@ -213,7 +233,7 @@ export default function Guestbook() {
                 }}
                 disabled={!deletePwd}
               >
-                确认删除
+                {lang === "zh" ? "确认删除" : "confirm"}
               </button>
             </div>
           </div>

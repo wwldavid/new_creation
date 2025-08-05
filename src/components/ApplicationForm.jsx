@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import ApplicationTable from "./ApplicationTable";
 
-export default function ApplicationForm({ activityId, onSuccess }) {
+export default function ApplicationForm({ lang, activityId, onSuccess }) {
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -82,8 +82,14 @@ export default function ApplicationForm({ activityId, onSuccess }) {
     <div>
       {submittedList.length > 0 && (
         <div className=" rounded p-4 bg-white/50 shadow">
-          <h4 className="text-md font-semibold mb-4">已提交的报名记录：</h4>
+          <h4 className="text-md font-semibold mb-4">
+            {lang === "zh"
+              ? "已提交的报名记录"
+              : "Submitted Registration Records"}
+            :
+          </h4>
           <ApplicationTable
+            lang={lang}
             data={submittedList}
             activityId={activityId}
             refetch={fetchApplications}
@@ -95,11 +101,13 @@ export default function ApplicationForm({ activityId, onSuccess }) {
         onSubmit={handleSubmit}
         className="space-y-4 mt-6 bg-white/50 shadow p-4"
       >
-        <h3 className="text-lg font-semibold">我要报名</h3>
+        <h3 className="text-lg font-semibold">
+          {lang === "zh" ? "我要报名" : "I'd like to sign up"}
+        </h3>
         {/* 姓名 */}
         <input
           required
-          placeholder="姓名"
+          placeholder={lang === "zh" ? "姓名" : "Name"}
           className="w-80 border px-3 py-2 rounded"
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -108,7 +116,7 @@ export default function ApplicationForm({ activityId, onSuccess }) {
         {/* 电话 */}
         <input
           required
-          placeholder="电话"
+          placeholder={lang === "zh" ? "电话" : "Phone number"}
           className="w-80 border px-3 py-2 rounded"
           value={form.phone}
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -117,7 +125,7 @@ export default function ApplicationForm({ activityId, onSuccess }) {
         {/* 邮箱 */}
         <input
           required
-          placeholder="邮箱"
+          placeholder={lang === "zh" ? "邮箱" : "Email"}
           type="email"
           className="w-80 border px-3 py-2 rounded"
           value={form.email}
@@ -125,14 +133,16 @@ export default function ApplicationForm({ activityId, onSuccess }) {
         />
         {/* 其它事项 */}
         <textarea
-          placeholder="其它事项"
+          placeholder={lang === "zh" ? "其它事项" : "Others"}
           className="w-full border px-3 py-2 rounded"
           value={form.other}
           onChange={(e) => setForm({ ...form, other: e.target.value })}
         />
         {/* 上传资料 */}
         <div>
-          <label className="block mb-1">上传资料（可选）</label>
+          <label className="block mb-1">
+            {lang === "zh" ? "上传资料（可选）" : "Submit Files (optional)"}
+          </label>
           <input type="file" onChange={handleAttach} />
           {form.attachments.length > 0 && (
             <ul className="list-disc list-inside mt-1">
@@ -147,7 +157,11 @@ export default function ApplicationForm({ activityId, onSuccess }) {
         {/* 报名密码 */}
         <input
           required
-          placeholder="设置个人报名密码"
+          placeholder={
+            lang === "zh"
+              ? "设置个人报名密码"
+              : "Set your personal registration password"
+          }
           type="password"
           className="w-80 border px-3 py-2 rounded"
           value={form.userPw}
@@ -160,7 +174,13 @@ export default function ApplicationForm({ activityId, onSuccess }) {
           disabled={loading}
           className="px-4 py-2 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
         >
-          {loading ? "提交中…" : "提交报名"}
+          {loading
+            ? lang === "zh"
+              ? "提交中…"
+              : "Submitting…"
+            : lang === "zh"
+            ? "提交报名"
+            : "Submit Registration"}
         </button>
       </form>
     </div>
