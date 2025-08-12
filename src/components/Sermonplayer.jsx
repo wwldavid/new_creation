@@ -158,6 +158,18 @@ export default function SermonPlayer({ lang }) {
     }
   };
 
+  const handlePlay = (s) => {
+    setPlayError(null);
+    if (s.youtubeId) {
+      setSelected(s);
+    } else {
+      setSelected({
+        ...s,
+        playUrl: `/api/sermons/media/${s.key}`,
+      });
+    }
+  };
+
   return (
     <div className="w-full p-6 bg-gradient-to-br rounded-xl shadow-sm mt-5 mb-5">
       {/* 播放区 */}
@@ -197,7 +209,7 @@ export default function SermonPlayer({ lang }) {
                     style={{ maxHeight: "500px" }}
                     onError={handleMediaError}
                   >
-                    您的浏览器不支持 HTML5 视频播放
+                    Your browser does not support HTML5 video playback
                   </video>
                 </div>
               ) : (
@@ -302,20 +314,17 @@ export default function SermonPlayer({ lang }) {
           </thead>
           <tbody>
             {sermons.map((s) => (
-              <tr key={s.id} className="border-b hover:bg-blue-50">
+              <tr
+                key={s.id}
+                className="border-b hover:bg-blue-50 cursor-pointer"
+                onClick={() => handlePlay(s)}
+              >
                 <td className="w-32 px-4 py-2">{s.title}</td>
                 <td className="px-4 py-2">
                   <button
-                    onClick={() => {
-                      setPlayError(null);
-                      if (s.youtubeId) {
-                        setSelected(s);
-                      } else {
-                        setSelected({
-                          ...s,
-                          playUrl: `/api/sermons/media/${s.key}`,
-                        });
-                      }
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePlay(s);
                     }}
                     className="p-2 hover:bg-blue-100 rounded-full transition-colors"
                   >
@@ -351,7 +360,8 @@ export default function SermonPlayer({ lang }) {
                     <td className="px-4 py-2">
                       <button
                         className="px-2 bg-[#2ca9e1] text-white rounded hover:bg-[#165e83]"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setPwModal({ open: true, mode: "edit", sermon: s });
                         }}
                       >
@@ -361,7 +371,8 @@ export default function SermonPlayer({ lang }) {
                     <td className="px-4 py-2">
                       <button
                         className="px-2 bg-[#fbd26b] text-white rounded hover:bg-[#ec6800]"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setPwModal({ open: true, mode: "delete", sermon: s });
                         }}
                       >
