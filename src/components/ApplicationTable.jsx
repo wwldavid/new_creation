@@ -23,7 +23,13 @@ function getPwdTitle(mode) {
   }
 }
 
-export default function ApplicationTable({ lang, data, activityId, refetch }) {
+export default function ApplicationTable({
+  isAdmin,
+  lang,
+  data,
+  activityId,
+  refetch,
+}) {
   const [selected, setSelected] = useState(null);
   const [mode, setMode] = useState(null); // "view"|"edit"|"delete"|"viewAll"|"manage"
 
@@ -196,28 +202,30 @@ export default function ApplicationTable({ lang, data, activityId, refetch }) {
       </table>
 
       {/* 右下角：查看所有 & 管理 */}
-      <div className=" mt-4 flex justify-end gap-4 items-center">
-        <button
-          className={`px-2 py-1 rounded text-white ${
-            showAll ? "bg-red-600" : "bg-[#2ca9e1] hover:bg-[#165e83]"
-          }`}
-          onClick={handleToggleShow}
-        >
-          {lang === "zh"
-            ? showAll
-              ? "隐藏信息"
-              : "查看全部信息"
-            : showAll
-            ? "Hide Info"
-            : "View All Info"}
-        </button>
-        <button
-          className="px-2 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
-          onClick={() => handleAction(null, "manage")}
-        >
-          {lang === "zh" ? "管理" : "Manage"}
-        </button>
-      </div>
+      {isAdmin && (
+        <div className=" mt-4 flex justify-end gap-4 items-center">
+          <button
+            className={`px-2 py-1 rounded text-white ${
+              showAll ? "bg-red-600" : "bg-[#2ca9e1] hover:bg-[#165e83]"
+            }`}
+            onClick={handleToggleShow}
+          >
+            {lang === "zh"
+              ? showAll
+                ? "隐藏信息"
+                : "查看全部信息"
+              : showAll
+              ? "Hide Info"
+              : "View All Info"}
+          </button>
+          <button
+            className="px-2 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
+            onClick={() => handleAction(null, "manage")}
+          >
+            {lang === "zh" ? "管理" : "Manage"}
+          </button>
+        </div>
+      )}
 
       {/* 一：密码弹窗 */}
       <PasswordModal

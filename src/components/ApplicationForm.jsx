@@ -2,7 +2,12 @@
 import { useEffect, useState, useCallback } from "react";
 import ApplicationTable from "./ApplicationTable";
 
-export default function ApplicationForm({ lang, activityId, onSuccess }) {
+export default function ApplicationForm({
+  isAdmin,
+  lang,
+  activityId,
+  onSuccess,
+}) {
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -89,6 +94,7 @@ export default function ApplicationForm({ lang, activityId, onSuccess }) {
             :
           </h4>
           <ApplicationTable
+            isAdmin={isAdmin}
             lang={lang}
             data={submittedList}
             activityId={activityId}

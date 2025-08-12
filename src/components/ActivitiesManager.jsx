@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import ActivityCreator from "./ActivityCreater";
+import ActivityCreator from "./ActivityCreator";
 import ActivityList from "./ActivityList";
 import ApplicationForm from "./ApplicationForm";
 
 export default function ActivitiesManager({
+  isAdmin,
   lang,
   showApplicationForm = false,
   onApplicationSuccess,
@@ -93,20 +94,22 @@ export default function ActivitiesManager({
               >
                 <ActivityList lang={lang} activities={[act]} />
 
-                <div className="absolute bottom-4 right-4 flex space-x-2">
-                  <button
-                    onClick={() => startAuth(act, "edit")}
-                    className="px-3 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
-                  >
-                    {lang === "zh" ? "编辑" : "Edit"}
-                  </button>
-                  <button
-                    onClick={() => startAuth(act, "delete")}
-                    className="px-3 py-1 bg-[#fbd26d] hover:bg-[#ec6800] text-white rounded"
-                  >
-                    {lang === "zh" ? "删除" : "Delete"}
-                  </button>
-                </div>
+                {isAdmin && (
+                  <div className="absolute bottom-4 right-4 flex space-x-2">
+                    <button
+                      onClick={() => startAuth(act, "edit")}
+                      className="px-3 py-1 bg-[#2ca9e1] hover:bg-[#165e83] text-white rounded"
+                    >
+                      {lang === "zh" ? "编辑" : "Edit"}
+                    </button>
+                    <button
+                      onClick={() => startAuth(act, "delete")}
+                      className="px-3 py-1 bg-[#fbd26d] hover:bg-[#ec6800] text-white rounded"
+                    >
+                      {lang === "zh" ? "删除" : "Delete"}
+                    </button>
+                  </div>
+                )}
 
                 {/* —— 行内密码验证框 —— */}
                 {authingId === act.id && (
@@ -162,18 +165,21 @@ export default function ActivitiesManager({
       )}
 
       {/* 创建区 */}
-      <section className="rounded p-4 bg-white/50 shadow">
-        <h2 className="text-xl font-semibold mb-4">
-          {" "}
-          {lang === "zh" ? "创建新活动" : "Create New Activities"}
-        </h2>
-        <ActivityCreator lang={lang} onSuccess={handleSuccess} />
-      </section>
+      {isAdmin && (
+        <section className="rounded p-4 bg-white/50 shadow">
+          <h2 className="text-xl font-semibold mb-4">
+            {" "}
+            {lang === "zh" ? "创建新活动" : "Create New Activities"}
+          </h2>
+          <ActivityCreator lang={lang} onSuccess={handleSuccess} />
+        </section>
+      )}
 
       {/* 报名区（可选） */}
       {showApplicationForm && activities[0] && (
         <section>
           <ApplicationForm
+            isAdmin={isAdmin}
             lang={lang}
             activityId={activities[0].id}
             onSuccess={() => {
