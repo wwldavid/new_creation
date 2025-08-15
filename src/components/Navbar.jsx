@@ -2,6 +2,7 @@
 
 import { useContext, useState } from "react";
 import { usePathname, useParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -19,6 +20,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const isAdminPage = pathname.startsWith("/admin");
   const basePath = pathname.replace(/^\/(en|zh)/, "");
+  const searchParams = useSearchParams();
 
   const navLinks = [
     { href: "/", label: currentLang === "zh" ? "主页" : "Home" },
@@ -150,6 +152,14 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* Backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
       {/* Slide-out Mobile Menu */}
       <div
         className={`fixed top-0 right-0 h-full w-[80%] sm:w-[50%] bg-[#495859] text-white z-50 transform transition-transform duration-300 ${
@@ -165,14 +175,32 @@ export default function Navbar() {
         <div className="flex flex-col space-y-6 px-8 text-xl mt-6">
           {navLinks.map(({ href, label }) => {
             if (href === "/language") {
+              // 和桌面端一致：在 admin 页面隐藏语言切换
+              if (isAdminPage) return null;
+
+              const onSwitchLang = () => {
+                // 当前路径去掉语言前缀后的 basePath 你已经算好了
+                const qs = searchParams?.toString();
+                const hash =
+                  typeof window !== "undefined" ? window.location.hash : "";
+                const target = `/${nextLang}${basePath}${qs ? `?${qs}` : ""}${
+                  hash || ""
+                }`;
+
+                // 先关闭抽屉，再跳转
+                setIsOpen(false);
+                router.push(target);
+              };
+
               return (
-                <Link
+                <button
                   key="language-mobile"
-                  href={`/${nextLang}${basePath}`}
-                  onClick={() => setIsOpen(false)}
+                  onClick={onSwitchLang}
+                  className="text-left"
+                  aria-label={label}
                 >
                   {label}
-                </Link>
+                </button>
               );
             }
 

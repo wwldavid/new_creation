@@ -59,7 +59,7 @@ export default function CrossWindow() {
       <audio ref={audioRef} src="/bg_music.mp3" loop />
       <div className="flex flex-col md:flex-row gap-4 md:gap-0">
         <div className="w-full mb-4 md:mb-0 px-0 md:px-24 md:w-3/4 space-y-4">
-          <h1 className="text-lg md:text-2xl lg:text-4xl font-bold text-[#647a5c] drop-shadow-lg italic text-center md:text-left">
+          <h1 className="text-base md:text-2xl lg:text-4xl font-bold text-[#647a5c] drop-shadow-lg italic text-center md:text-left">
             <span>{t.title1}</span>
             <br />
             <span>{t.title2}</span>
@@ -68,7 +68,7 @@ export default function CrossWindow() {
             <Slider />
             <button
               onClick={toggleAudio}
-              className="absolute bottom-3 left-3 z-25 p-2 bg-[#495859] text-white bg-opacity-80 rounded-full shadow hover:bg-opacity-100 transition"
+              className="absolute bottom-3 left-3 z-25 p-2 text-sm md:text-lg bg-[#495859] text-white bg-opacity-80 rounded-full shadow hover:bg-opacity-100 transition"
               aria-label={isPlaying ? t.ariaPause : t.ariaPlay}
             >
               {isPlaying ? t.btnMute : t.btnPlay}
