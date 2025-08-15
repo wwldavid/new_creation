@@ -175,11 +175,9 @@ export default function Navbar() {
         <div className="flex flex-col space-y-6 px-8 text-xl mt-6">
           {navLinks.map(({ href, label }) => {
             if (href === "/language") {
-              // 和桌面端一致：在 admin 页面隐藏语言切换
               if (isAdminPage) return null;
 
               const onSwitchLang = () => {
-                // 当前路径去掉语言前缀后的 basePath 你已经算好了
                 const qs = searchParams?.toString();
                 const hash =
                   typeof window !== "undefined" ? window.location.hash : "";
@@ -187,7 +185,6 @@ export default function Navbar() {
                   hash || ""
                 }`;
 
-                // 先关闭抽屉，再跳转
                 setIsOpen(false);
                 router.push(target);
               };
